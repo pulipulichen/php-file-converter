@@ -3,7 +3,6 @@
 <head>
 	<meta charset="utf-8">
 	<title>PHP File Converter</title>
-
 	<style type="text/css">
 
 	::selection{ background-color: #E13300; color: white; }
@@ -113,6 +112,7 @@
 </head>
 <body>
 
+        <link rel="icon" href="/php-file-converter/favicon.ico" type="image/x-icon">
 <div id="container">
 	<h1>PHP File Converter</h1>
 
