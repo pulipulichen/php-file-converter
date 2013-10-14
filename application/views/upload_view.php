@@ -116,7 +116,7 @@
 <div id="container">
 	<h1>PHP File Converter</h1>
 
-	<form id="body">
+        <form id="body" action="<?php echo base_url() ?>/converter/upload/" method="post" enctype="multipart/form-data">
 		<p>Upload your file and wait for download.</p>
                 <p>Converter:</p>
                 
