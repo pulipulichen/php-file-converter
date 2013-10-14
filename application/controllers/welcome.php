@@ -20,7 +20,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
             $this->load->library('javascript');
-            $this->load->library('jquery');
+            $this->load->library('javascript/jquery');
             $this->load->view('upload_view');
 	}
 }
