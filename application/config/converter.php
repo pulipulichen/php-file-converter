@@ -97,7 +97,7 @@ $config['max_reserved_files']	= 3;
  * @example 8 上限為8MB
  * @example 80 上限為80MB
  * @todo 要顯示在上傳表單中
- * @todo 20131015 尚未實作
+ * PENDING 20131015 尚未實作
  */
 $config['max_file_size']	= 80;
 
@@ -106,8 +106,6 @@ $config['max_file_size']	= 80;
  * --------------------------------------------------------------------------
  * 許可IP設定
  * --------------------------------------------------------------------------
- * 
- * @deprecated 20131015 尚未實作
  */
 
 /**
@@ -117,7 +115,7 @@ $config['max_file_size']	= 80;
  * @example black 黑名單
  * @example disable 不設定
  * 
- * @todo 20131015 尚未實作
+ * PENDING 20131015 尚未實作
  */
 $config['ip_block']['type']	= 'disable';
 
@@ -130,7 +128,7 @@ $config['ip_block']['type']	= 'disable';
  * @example 140.119.61.141/32 限定140.119.61.141
  * @example 10.0.0.0/8 只要IP開頭為10都可以連線
  * 
- * @todo 20131015 尚未實作
+ * PENDING 20131015 尚未實作
  */
 $config['ip_block']['list']	= array();
 
@@ -138,8 +136,6 @@ $config['ip_block']['list']	= array();
  * --------------------------------------------------------------------------
  * 許可檔案類型設定
  * --------------------------------------------------------------------------
- * 
- * @deprecated 20131015 尚未實作
  */
 
 /**
@@ -149,7 +145,7 @@ $config['ip_block']['list']	= array();
  * @example black 黑名單
  * @example disable 不設定
  * 
- * @todo 20131015 尚未實作
+ * PENDING 20131015 尚未實作
  */
 $config['mine_block']['type']	= 'disable';
 
@@ -162,7 +158,7 @@ $config['mine_block']['type']	= 'disable';
  * @example 140.119.61.141/32 限定140.119.61.141
  * @example 10.0.0.0/8 只要IP開頭為10都可以連線
  * 
- * @todo 20131015 尚未實作
+ * PENDING 20131015 尚未實作
  */
 $config['mime_block']['list']	= array();
 

@@ -109,17 +109,19 @@
                 top:1px;
         }
         
-	</style>
-        <script type="text/javascript">
-            $(function () {
-                $("#bitstream").change(function () {
-                        if (this.value != '') {
-                            $("#submit").slideDown();
-                        }
-                });
-            });
-        </script>
+	</style>   
+</head>
+<body>
 
+<script type="text/javascript">
+    $(function () {
+        $("#bitstream").change(function () {
+                if (this.value != '') {
+                    $("#submit").slideDown();
+                }
+        });
+    });
+</script>   
 <?php 
 if ($this->config->item("debug") > 0) {
 ?>
@@ -136,10 +138,7 @@ if ($this->config->item("debug") > 0) {
         </script>
 <?php 
 }
-?>         
-</head>
-<body>
-
+?>   
         <link rel="icon" href="<?php echo base_url("/favicon.ico"); ?>" type="image/x-icon">
 <div id="container">
 	<h1>PHP File Converter</h1>
