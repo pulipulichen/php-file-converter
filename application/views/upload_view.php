@@ -123,7 +123,12 @@
                 <input type="file" name="bitstream" class="input file" />
                 <button type="submit" class="input submit">SUBMIT</button>
 		
-		<p>PHP File Converter is based on CodeIgniter 2.1.4. If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
+		<p>
+                    PHP File Converter is based on CodeIgniter 2.1.4. If you are exploring CodeIgniter for the very first time, you should start by reading the 
+                    <a href="user_guide/" target="user_guide">User Guide</a> (<a href="user_guide_zh_tw/CodeIgniter%202.1.4/www.codeigniter.org.tw/user_guide/index.html" target="user_guide">Traditional Chinese</a>).
+                </p>
+                
+                <p>Checking system detail in <a href="phpliteadmin.php" target="phpliteadmin">SQLite Database</a>.</p>
 	</form>
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
