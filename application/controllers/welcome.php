@@ -19,7 +19,27 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
+            //$this->load->library("toolkit/KALS_object");
+            //$this->load->library("toolkit/Generic_object");
+            $this->load->library("object/log");
+            $log = new Log();
+            $log->set_field('action', "upload");
+            $log->set_field('ip', "154545");
+            $log->set_field('bitstream_id', "1");
+            $log->update();
+            /*
+             * 測試用
+            $this->load->database();
+            $db = $this->db;
             
+            
+            // insert user data
+            $db->insert('log', array(
+                'action' => "upload",
+                'ip' => '140.119.61.141',
+                'bitstream_id' => 1
+            ));
+             */
             $this->load->view('upload_view');
             
 	}

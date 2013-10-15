@@ -48,11 +48,11 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'sqlite:'.APPPATH.'db/';
+$db['default']['hostname'] = 'sqlite:'.APPPATH.'db/php-file-converter.sqlite.db';
 $db['default']['username'] = '';
 $db['default']['password'] = '';
 $db['default']['database'] = '';
-$db['default']['dbdriver'] = 'mysql';
+$db['default']['dbdriver'] = 'pdo';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
