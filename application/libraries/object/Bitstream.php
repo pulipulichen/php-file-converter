@@ -28,6 +28,7 @@ class Bitstream extends Generic_object {
         , 'internal_name'
         , 'deleted'
         , 'type'
+        , 'original_id'
     ); //資料表欄位
 
     //以下是選填資料，預設關閉
@@ -133,10 +134,117 @@ class Bitstream extends Generic_object {
         return $full_path;
     }
     
+    /**
+     * 刪除時，同時刪除檔案系統中的檔案
+     */
     public function delete() {
         $path = $this->get_path();
         unlink($path);
+        
+        if ($this->config->item("reserve_original") === TRUE
+                && $this->is_original() === FALSE) {
+            $original_bitstream = $this->get_original_bitstream();
+            $original_bitstream->delete();
+        }
         parent::delete();
+    }
+    
+    /**
+     * 取得原始檔案
+     * @return Bitstream 原始檔案
+     */
+    public function get_original_bitstream() {
+        if ($this->is_original()) {
+            return $this;
+        }
+        else {
+            $original_id = $this->get_field("original_id");
+            return new Bitstream($original_id);
+        }
+    }
+
+
+    /**
+     * 取得原始檔案的路徑
+     * @return string 原始檔案的路徑
+     */
+    public function get_original_path() {
+        if ($this->is_original()) {
+            return $this->get_path();
+        }
+        else {
+            $original_bitstream = $this->get_original_bitstream();
+            return $original_bitstream->get_path();
+        }
+    }
+    
+    /**
+     * 是否是原始檔案
+     * @return boolean 是否是原始檔案
+     */
+    public function is_original() {
+        return ($this->get_type() == "orginal");
+    }
+    
+    /**
+     * 取得檔案類型
+     * @example "orginal" 原始檔案
+     * @example "copy" copy模組轉換過的檔案
+     * @return String 檔案的類型
+     */
+    public function get_type() {
+        return $this->get_field('type', 'original');
+    }
+    
+    /**
+     * 取得檔案名稱
+     * @return string
+     */
+    public function get_original_name() {
+        return $this->get_field("original_name");
+    }
+    
+    /**
+     * 轉換過的檔案
+     * @var Bitstream 轉換過的檔案
+     */
+    private $converted_bitstream = NULL;
+    
+    /**
+     * 取得轉換過的檔案
+     * @return Bitstream 轉換過的檔案
+     */
+    public function get_converted_bitstream() {
+        if (is_null($this->get_converted_bitstream())) {
+            $db = $this->CI->db;
+        
+            $db->select($this->primary_key);
+            $db->from($this->table_name);
+            $db->where("original_id", $this->get_id());
+            
+            $query = $db->get();
+            if ($query->num_rows() > 0) {
+                $result = $query->result_array();
+                $this->converted_bitstream = new Bitstream($result[$this->primary_key]);
+            }
+        }
+        return $this->converted_bitstream;
+    }
+    
+    /**
+     * 轉換是否完成
+     * @return Boolean
+     */
+    public function is_convert_completed() {
+        return (is_null($this->get_converted_bitstream()));
+    }
+    
+    /**
+     * 是否是轉換過的檔案
+     * @return Boolean
+     */
+    public function is_converted() {
+        return (!$this->is_original());
     }
 }
 

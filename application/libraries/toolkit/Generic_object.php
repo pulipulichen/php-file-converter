@@ -616,10 +616,11 @@ class Generic_object extends KALS_object {
 
     /**
      * 取得指定$field的欄位資料
-     * @param string $field
+     * @param string $field 欄位名稱
+     * @param object $default_value 預設值
      * @return mixed
      */
-    public function get_field($field)
+    public function get_field($field, $default_value = NULL)
     {
         if (is_array($field))
         {
@@ -643,10 +644,12 @@ class Generic_object extends KALS_object {
         $f = $field;
         $field = $this->_get_field_filter($field);
 
-        if (isset($this->database_fields[$field]))
+        if (isset($this->database_fields[$field])) {
             return $this->database_fields[$field];
-        else if (in_array($field, $this->table_fields))
-            return NULL;
+        }
+        else if (in_array($field, $this->table_fields)) {
+            return $default_value;
+        }   
         else
         {
             //return $this->database_fields[$field];

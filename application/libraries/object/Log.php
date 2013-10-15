@@ -76,6 +76,29 @@ class Log extends Generic_object {
     public function set_bitstream($bitstream) {
         return $this->set_bitstream_id($bitstream);
     }
+    
+    /**
+     * 設定動作
+     * @param String $action
+     * @return Log
+     */
+    public function set_action($action) {
+        return $this->set_field('action', $action);
+    }
+    
+    /**
+     * 建立記錄
+     * @param Bitstream $bitstream
+     * @param String $action
+     * @return Log
+     */
+    static public function create_log($bitstream, $action) {
+        $log = new Log();
+        $log->set_bitstream($bitstream);
+        $log->set_action($action);
+        $log->update();
+        return $this;
+    }
 }
 
 /* End of file log.php */

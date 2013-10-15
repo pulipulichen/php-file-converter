@@ -163,9 +163,24 @@ $config['mine_block']['type']	= 'disable';
  */
 $config['mime_block']['list']	= array();
 
+/**
+ * 偵錯等級
+ * 
+ * 數字越大，顯示的偵錯訊息越多
+ */
 $config["debug"] = 5;
-$config["db"]["true"] = '""true""';
-$config["db"]["true"] = '""false""';
+
+/**
+ * @var int 等待時重讀的時間，單位是秒
+ */
+$config["wait_reload_interval"] = 3;
+
+/**
+ * @var Boolean 是否要保存原始檔案，直到轉換檔案被刪除
+ * @example false 預設值，原始檔案在轉換完成之後就會被刪除
+ * @example true 原始檔案在轉換檔案完成之後才會被刪除
+ */
+$config["reserve_original"] = false;
 
 /* End of file converter.php */
 /* Location: ./application/config/converter.php */
