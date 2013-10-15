@@ -24,9 +24,11 @@ class Welcome extends CI_Controller {
             $this->load->library("object/log");
             $log = new Log();
             $log->set_field('action', "upload");
-            $log->set_field('ip', "154545");
+            //$log->set_field('ip', "154545");
             $log->set_field('bitstream_id', "1");
-            $log->update();
+            //$log->update();
+            
+            //$this->load->library("upload");
             /*
              * 測試用
             $this->load->database();

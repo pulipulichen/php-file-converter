@@ -30,11 +30,17 @@ class Log extends Generic_object {
 //    protected $default_field = '';  //預設欄位
 //    protected $fake_delete = 'deleted';    //假性刪除欄位
 //    protected $use_cache = FALSE;   //是否使用快取
-
 //    protected function _post_construct($table_name = NULL, $id = NULL)  //__construct()完成後動作
-//    protected  function _set_field_filter($cond)    //set_field()資料過濾
-//    protected  function _get_field_filter($field)   //get_field()資料過濾
-//    protected  function _pre_update($data)  //update()前動作
+
+    /**
+     * 在Update前，新增使用者的IP資料
+     * @param type $data
+     */
+    protected  function _pre_update($data)  //update()前動作
+    {
+        $data["ip"] = get_user_ip();
+        return $data;
+    }
 //    protected function _post_update()   //update()後動作
 //    protected  function _pre_insert($data)  //新增(insert)前動作
 //    protected  function _post_insert()  //新增(insert)後動作
@@ -49,6 +55,27 @@ class Log extends Generic_object {
     // log Methods
     // --------
 
+    /**
+     * 設定Bitstream ID
+     * @param Bitstream|Int $bitstream_id
+     * @return Log
+     */
+    public function set_bitstream_id($bitstream_id) {
+        if (is_object($bitstream_id)) {
+            $bitstream_id = $bitstream_id->get_id();
+        }
+        $this->set_field('bitstream_id', $bitstream_id);
+        return this;
+    }
+    
+    /**
+     * 設定Bitstream
+     * @param Bitsream|Int $bitstream
+     * @return Log
+     */
+    public function set_bitstream($bitstream) {
+        return $this->set_bitstream_id($bitstream);
+    }
 }
 
 /* End of file log.php */

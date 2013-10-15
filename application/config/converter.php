@@ -64,6 +64,7 @@ $config['script']	= 'copy [INPUT_FILE] [OUTPUT_FILE]';
  * 上傳後的存放位置
  */
 $config['convert_files']['uploaded']	= 'convert-files/uploaded';
+$config['upload_path']	= $config['convert_files']['uploaded'];
 
 /**
  * 轉換中的存放位置
@@ -100,7 +101,7 @@ $config['max_reserved_files']	= 3;
  * PENDING 20131015 尚未實作
  */
 $config['max_file_size']	= 80;
-
+$config['max_size'] = $config['max_file_size']; 
 
 /**
  * --------------------------------------------------------------------------

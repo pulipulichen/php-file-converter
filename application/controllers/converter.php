@@ -11,14 +11,28 @@ class Converter extends CI_Controller {
          * 預設首頁，會指到upload
          */
         public function index() {
-            $this->upload();
+            $this->do_upload();
         }
     
         /**
          * 處理上傳檔案
          */
-        public function upload() {
-         
+        public function do_upload() {
+            $config['upload_path'] = $this->config->item("upload_path");
+
+            $config['allowed_types'] = '*';
+            $config['max_width'] = 0;
+            $config['max_height'] = 0;
+            $config['max_size'] = 0;
+            $config['encrypt_name'] = TRUE;
+
+            //echo $config['upload_path'];
+            $this->load->library('upload', $config);
+            $this->upload->do_upload('bitstream');
+            
+            $upload_data = $this->upload->data();
+            $internal_name = $upload_data['file_name'];
+            
             // 記錄完畢，header去wait
         }
         

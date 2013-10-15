@@ -143,8 +143,16 @@ if ($this->config->item("debug") > 0) {
 <div id="container">
 	<h1>PHP File Converter</h1>
 
-        <form id="body" action="<?php echo base_url("converter/upload/"); ?>" method="post" enctype="multipart/form-data">
-		<p>Upload your file and wait for download.</p>
+        
+        <form id="body" action="<?php echo base_url("converter/do_upload/"); ?>" method="post" enctype="multipart/form-data">
+        
+<?php
+if (isset($error)) {
+    echo $error;
+}
+?>
+
+            <p>Upload your file and wait for download.</p>
                 <p>Max file size limit: <?php echo $this->config->item("max_file_size") ?>MB</p>
                 
                 <input type="file" name="bitstream" id="bitstream" class="input file" />

@@ -507,5 +507,21 @@ if ( ! function_exists('strip_selected_tags'))
     }
 }
 
+if ( ! function_exists('get_user_ip')) {
+    /**
+     * 取得使用者的IP
+     * @return String 使用者的IP
+     */
+    function get_user_ip() {
+        if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $myip = $_SERVER['REMOTE_ADDR'];
+        } else {
+            $myip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $myip = $myip[0];
+        }
+        return $myip;
+    }
+}
+
 /* End of file kals_helper.php */
 /* Location: ./system/application/helpers/kals_helper.php */
