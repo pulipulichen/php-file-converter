@@ -21,18 +21,31 @@ class Converter extends CI_Controller {
             $config['upload_path'] = $this->config->item("upload_path");
 
             $config['allowed_types'] = '*';
-            $config['max_width'] = 0;
-            $config['max_height'] = 0;
-            $config['max_size'] = 0;
+            $config['max_size'] = $this->config->item("max_size");
             $config['encrypt_name'] = TRUE;
-
+            /*
             //echo $config['upload_path'];
             $this->load->library('upload', $config);
             $this->upload->do_upload('bitstream');
             
             $upload_data = $this->upload->data();
             $internal_name = $upload_data['file_name'];
+            $original_name = $upload_data['orig_name'];
             
+            $this->load->library("object/Bitstream");
+            $bitstream = new Bitstream();
+            $bitstream->set_field("original_name", $original_name);
+            $bitstream->set_field("internal_name", $internal_name);
+            $bitstream->set_field("type", "uploaded");
+            
+            //echo $bitstream->get_path();
+            echo $bitstream->get_mime();
+            $bitstream->update();
+             */
+            
+            $this->load->library("object/Bitstream");
+            $bitstream = new Bitstream(5);
+            $bitstream->delete();
             // 記錄完畢，header去wait
         }
         

@@ -164,6 +164,8 @@ $config['mine_block']['type']	= 'disable';
 $config['mime_block']['list']	= array();
 
 $config["debug"] = 5;
+$config["db"]["true"] = '""true""';
+$config["db"]["true"] = '""false""';
 
 /* End of file converter.php */
 /* Location: ./application/config/converter.php */

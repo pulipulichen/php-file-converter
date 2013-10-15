@@ -496,16 +496,17 @@ class Generic_object extends KALS_object {
 
     	$this->db->from($table_name)
     		->where($pk, $id);
+        
         if (is_string($this->fake_delete))
         {
-            $this->db->where($this->fake_delete, 'FALSE');
+            $this->db->where($this->fake_delete, 0);
         }
     	$query = $this->db->get();
 
         if ($query->num_rows() > 0)
         {
             $result_fields = $query->first_row('array');
-
+            
             $this->database_fields = $result_fields;
 
             $this->loaded = TRUE;
@@ -808,7 +809,7 @@ class Generic_object extends KALS_object {
             else
             {
                 $deleted_field = $this->fake_delete;
-                $this->db->set($deleted_field, 'TRUE');
+                $this->db->set($deleted_field, 1);
                 $this->db->where($pk, $id);
                 $this->db->update($table_name);
             }
@@ -843,8 +844,9 @@ class Generic_object extends KALS_object {
             $table = $this->table_name;
 
             $db->where($pk, $id);
-            if (isset($this->fake_delete))
-                $db->where($this->fake_delete, 'FALSE');
+            if (isset($this->fake_delete)) {
+                $db->where($this->fake_delete, 0);
+            }
             $count = $db->count_all_results($table);
 
             $this->deleted = ($count == 0);
@@ -878,7 +880,7 @@ class Generic_object extends KALS_object {
         $table_name = $this->table_name;
 
         $deleted_field = $this->fake_delete;
-        $this->db->set($deleted_field, 'FALSE');
+        $this->db->set($deleted_field, 0);
         $this->db->where($pk, $id);
         $this->db->update($table_name);
 
@@ -1010,7 +1012,7 @@ class Generic_object extends KALS_object {
             if (is_string($this->fake_delete))
             {
                 //只更新尚未被刪除的
-                $this->db->where($this->fake_delete, 'FALSE');
+                $this->db->where($this->fake_delete, 0);
             }
             $this->db->update($table_name);
         }
@@ -1215,7 +1217,7 @@ class Generic_object extends KALS_object {
         
         $this->db->where($cond);
         if (is_string($this->fake_delete))
-            $this->db->where ($this->fake_delete, 'FALSE');
+            $this->db->where ($this->fake_delete, 0);
         $this->db->select($pk);
         $query = $this->db->get($this->table_name);
         if ($query->num_rows() > 0)
@@ -1260,7 +1262,7 @@ class Generic_object extends KALS_object {
         if (NULL !== $offset)
             $this->db->offset ($offset);
         if (is_string($this->fake_delete))
-            $this->db->where ($this->fake_delete, 'FALSE');
+            $this->db->where ($this->fake_delete, 0);
         $query = $this->db->get($this->table_name);
 
         foreach ($query->result_array() AS $row)

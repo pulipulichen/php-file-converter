@@ -1,6 +1,3 @@
 # IDE, don't track them
 aptana/
 nbproject/
-convert-files/
-php-file-converter.sqlite.db
-!/php-file-converter.sqlite.db
