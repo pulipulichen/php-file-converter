@@ -96,7 +96,7 @@ $autoload['config'] = array("config", "converter");
 |
 */
 
-$autoload['language'] = array();
+$autoload['language'] = array('converter');
 
 
 /*

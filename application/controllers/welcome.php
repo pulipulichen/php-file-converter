@@ -42,8 +42,11 @@ class Welcome extends CI_Controller {
                 'bitstream_id' => 1
             ));
              */
+            //$view_data["page_title"] = "PHP File Converter";
+            $view_data["page_title"] = $this->lang->line("page_title");
+            $this->load->view('component/header', $view_data);
             $this->load->view('upload_view');
-            
+            $this->load->view('component/footer');
 	}
 }
 
