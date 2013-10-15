@@ -21,6 +21,7 @@ class Welcome extends CI_Controller {
 	{
             //$this->load->library("toolkit/KALS_object");
             //$this->load->library("toolkit/Generic_object");
+            /*
             $this->load->library("object/log");
             $log = new Log();
             $log->set_field('action', "upload");

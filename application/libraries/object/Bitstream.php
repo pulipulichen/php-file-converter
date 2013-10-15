@@ -246,6 +246,14 @@ class Bitstream extends Generic_object {
     public function is_converted() {
         return (!$this->is_original());
     }
+    
+    /**
+     * 取得內部名稱
+     * @return String 內部名稱
+     */
+    public function get_internal_name() {
+        return $this->get_field("internal_name");
+    }
 }
 
 /* End of file Bitstream.php */

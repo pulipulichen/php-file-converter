@@ -8,12 +8,19 @@
 class Converter extends CI_Controller {
 
         /**
+         * @var Log
+         */
+        private $log;
+    
+        /**
          * 預先載入一些函式庫
          */
         public function __construct() {
             parent::__construct();
             
             $this->load->library("object/log");
+            $this->log = new Log();
+            
             $this->load->library("object/bitstream");
         }
 
@@ -53,6 +60,11 @@ class Converter extends CI_Controller {
             
             $bitstream->update();
             $bitstream_id = $bitstream->get_id();
+            
+            $this->log->create_log($bitstream, "upload");
+            
+            // 觸動轉檔工作
+            $this->start_convert();
             
             // 記錄完畢，header去wait
             $this->wait($bitstream_id);
