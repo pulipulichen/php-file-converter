@@ -48,7 +48,7 @@ if (isset($error)) {
                     <a href="user_guide/" target="user_guide">User Guide</a> (<a href="user_guide_zh_tw/CodeIgniter%202.1.4/www.codeigniter.org.tw/user_guide/index.html" target="user_guide">Traditional Chinese</a>).
                 </p>
                 
-                <p>Checking system detail in <a href="phpliteadmin.php" target="phpliteadmin">SQLite Database</a>.</p>
+                <p>Checking system detail in <a href="phpliteadmin/phpliteadmin.php" target="phpliteadmin">SQLite Database</a>.</p>
 	</form>
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
