@@ -181,13 +181,7 @@ class Bitstream extends Generic_object {
      * 刪除時，同時刪除檔案系統中的檔案
      */
     public function delete() {
-        $path = $this->get_path();
-        
-        if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
-            if (is_file($path)) {
-                unlink($path);
-            }
-        }
+        $this->delete_file();
         
         if ($this->CI->config->item("reserve_original") === TRUE
                 && $this->is_original() === FALSE
@@ -198,6 +192,14 @@ class Bitstream extends Generic_object {
             }
         }
         parent::delete();
+    }
+    
+    public function delete_file() {
+        $path = $this->get_path();
+        
+        if (is_file($path)) {
+            unlink($path);
+        }
     }
     
     /**

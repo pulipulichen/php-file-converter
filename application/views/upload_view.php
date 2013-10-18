@@ -1,3 +1,6 @@
+<?php 
+$converter = $this->config->item("converter");
+?>
 <script type="text/javascript">
     $(function () {
         $("#bitstream").change(function () {
@@ -17,7 +20,7 @@ if ($this->config->item("debug") > 0) {
                 setTimeout(function () {
                     var _file_path = "D:\\xampp\\htdocs\\php-file-converter\\README.md";
                     $("#bitstream").attr("value",_file_path).change();
-                    $("#submit").slideDown();
+                    //$("#submit").slideDown();
                 }, 500);
             });
         </script>
@@ -37,14 +40,31 @@ if (isset($error)) {
 }
 ?>
 
-            <p>Upload your file and wait for download.</p>
-                <p>Max file size limit: <?php echo $this->config->item("max_file_size") ?>MB</p>
+                <p>
+                    Converter: <strong><?php echo $converter["name"]; ?></strong> <br />
+                    Max file size limit: <strong><?php 
+                    $size = $this->config->item("max_file_size");
+                    if ($size == 0) {
+                        echo "UNLIMIT";
+                    }
+                    else {
+                        echo $size."MB";
+                    }
+                    ?></strong> <br />
+                    Allow file type: <strong><?php echo $this->config->item("allowed_types"); ?></strong>
+                </p>
                 
+                
+            <p>Upload your file and wait for download.</p>
+            
                 <input type="file" name="bitstream" id="bitstream" class="input file" />
                 <div><button type="submit" id="submit" class="input submit">SUBMIT</button></div>
-		
+                
+                <hr/>
+                <h2>Readme</h2>
+                
 		<p>
-                    PHP File Converter is based on CodeIgniter 2.1.4. If you are exploring CodeIgniter for the very first time, you should start by reading the 
+                    <strong>PHP File Converter</strong> is based on CodeIgniter 2.1.4. <br />If you are exploring CodeIgniter for the very first time, you should start by reading the 
                     <a href="user_guide/" target="user_guide">User Guide</a> (<a href="user_guide_zh_tw/CodeIgniter%202.1.4/www.codeigniter.org.tw/user_guide/index.html" target="user_guide">Traditional Chinese</a>).
                 </p>
                 

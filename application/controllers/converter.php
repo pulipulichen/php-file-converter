@@ -46,14 +46,18 @@ class Converter extends CI_Controller {
         public function do_upload() {
             $config['upload_path'] = $this->config->item("upload_path");
 
-            $config['allowed_types'] = '*';
-            $config['max_size'] = $this->config->item("max_size");
+            $config['allowed_types'] = $this->config->item("allowed_types");
+            $config['max_size'] = $this->config->item("max_size") * 1024;
             $config["max_filename"] = 0;
             $config['encrypt_name'] = TRUE;
             
             $this->load->library('upload', $config);
+            
+            
             if ($this->upload->do_upload('bitstream') === FALSE) {
-                $this->upload->display_errors("<p>", "</p>");
+                $message = $this->upload->display_errors("<p>", "</p>");
+                $this->_message($message);
+                return false;
             }
             
             $upload_data = $this->upload->data();
@@ -131,7 +135,7 @@ class Converter extends CI_Controller {
             
             //sleep(1);
             $is_convert_completed = $bitstream->is_convert_completed();
-            echo $is_convert_completed;
+            //echo $is_convert_completed;
             if ($is_convert_completed === FALSE) {
                 //還沒轉換完成喔
                 

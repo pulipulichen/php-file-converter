@@ -110,7 +110,7 @@ $config['max_reserved_files']	= 3;
  * @todo 要顯示在上傳表單中
  * PENDING 20131015 尚未實作
  */
-$config['max_file_size']	= 80;
+$config['max_file_size']	= 0;
 $config['max_size'] = $config['max_file_size']; 
 
 /**
@@ -148,30 +148,7 @@ $config['ip_block']['list']	= array();
  * 許可檔案類型設定
  * --------------------------------------------------------------------------
  */
-
-/**
- * 許可類型
- * 
- * @example white 白名單
- * @example black 黑名單
- * @example disable 不設定
- * 
- * PENDING 20131015 尚未實作
- */
-$config['mine_block']['type']	= 'disable';
-
-/**
- * 許可列表
- * 
- * 必須輸入IP跟子網路遮罩(netmask)
- * 
- * @example 140.119.61.0/24 限定140.119.61.1~140.119.61.254
- * @example 140.119.61.141/32 限定140.119.61.141
- * @example 10.0.0.0/8 只要IP開頭為10都可以連線
- * 
- * PENDING 20131015 尚未實作
- */
-$config['mime_block']['list']	= array();
+$config["allowed_types"] = "*";
 
 /**
  * 偵錯等級
@@ -190,7 +167,7 @@ $config["wait_reload_interval"] = 3;
  * @example false 預設值，原始檔案在轉換完成之後就會被刪除
  * @example true 原始檔案在轉換檔案被刪除之後才會被刪除
  */
-$config["reserve_original"] = true;
+//$config["reserve_original"] = true;
 
 /* End of file converter.php */
 /* Location: ./application/config/converter.php */

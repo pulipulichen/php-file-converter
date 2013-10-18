@@ -52,6 +52,11 @@ class Convert_handler extends KALS_object {
         //先上鎖
         $this->_lock();
         
+        // 來做檢查，看數量是否超過指定數目
+        if ($this->_is_over_reserved_files()) {
+            $this->_delete_over_reserved_files();
+        }
+        
         while (!is_null($bitstream)) {
         
             $result = $this->convert_start($bitstream);
@@ -70,6 +75,44 @@ class Convert_handler extends KALS_object {
         //$this->start();
     }
     
+    private function _is_over_reserved_files() {
+        
+        $sql = "select bitstream_id "
+            . "from bitstream "
+            . "where original_id IS NOT NULL";
+        $query = $this->db->query($sql);
+        $number = $query->num_rows();
+        
+        return ($number > $this->CI->config->item("max_reserved_files"));
+    }
+    
+    private function _delete_over_reserved_files() {
+        
+        $sql = "select bitstream_id "
+            . "from bitstream "
+            . "where original_id IS NOT NULL "
+            . "order by bitstream_id desc";
+        
+        $query = $this->db->query($sql);
+        
+        $results = $query->result_array();
+        $i = 0;
+        foreach ($results AS $result) {
+            if ($i < $this->CI->config->item("max_reserved_files")) {
+                $i++;
+                continue;
+            }
+            
+            $bitstream_id = $result["bitstream_id"];
+            
+            $bitstream = new Bitstream($bitstream_id);
+            //echo "delete: ".$bitstream_id."<br />";
+            $bitstream->delete();
+            $i++;
+        }
+    }
+
+
     /**
      * @return Bitstream
      */
@@ -112,7 +155,7 @@ class Convert_handler extends KALS_object {
      * @param Bitstream $bitstream
      */
     public function convert_start($bitstream) {
-        $this->puli_log->create_log($bitstream, 'convert_start');
+        //$this->puli_log->create_log($bitstream, 'convert_start');
         
         // 開始進行轉換的手續
         
@@ -172,6 +215,8 @@ class Convert_handler extends KALS_object {
             $converted_bitstream->set_field("mime", $output_mime);
             
             $converted_bitstream->save();
+            
+            $bitstream->delete_file();
 
             $this->puli_log->create_log($converted_bitstream, $converter_name."_completed");
         }
@@ -232,7 +277,7 @@ class Convert_handler extends KALS_object {
      * @param Bitstream $bitstream
      */
     public function convert_completed($bitstream) {
-        $this->puli_log->create_log($bitstream, 'convert_completed');
+        //$this->puli_log->create_log($bitstream, 'convert_completed');
         return $this;
     }
     

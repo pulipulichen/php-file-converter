@@ -1,11 +1,11 @@
 <p>
-    <span style="font-weight: bold;">
+    <strong>
 <?php
 if (isset($message)) {
     echo $message;
 }
 ?>
-    </span>
+    </strong>
     <span id="status">
         is converting now. Please Wait. <br />
         <img src="<?php echo base_url("images/ajax-loader.gif"); ?>" />
@@ -25,8 +25,10 @@ var _callback = function (_data) {
     }
     else if (_data != "wait") {
         _href = "<?php echo $download_uri; ?>/" + _data;
+        var _location = location.href;
+        _location = _location.substr(0, _location.indexOf("php-file-convert")-1);
         $("#status").html(" is converted successful. <br /> Download link: "
-            + '<a href="'+_href+'" tartget="download">'+_href+'</a> <br />'
+            + '<a href="'+_href+'" tartget="download">'+_location+_href+'</a> <br />'
             + ' <img src="<?php echo base_url("images/checkmark.png"); ?>" />');
         //$.get(_href);
         setTimeout(function () {
