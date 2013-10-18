@@ -80,7 +80,10 @@ $autoload['helper'] = array("url_helper");
 |
 */
 
-$autoload['config'] = array("config", "converter_doscopy");
+$autoload['config'] = array("config"
+    , "converter"
+    //, "converter_doscopy"
+);
 
 
 /*

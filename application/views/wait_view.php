@@ -24,7 +24,7 @@ var _callback = function (_data) {
 var _wait = <?php echo $wait_reload_interval * 1000; ?>;
 
 setTimeout(function () {
-    //$.get(_status_uri, _callback);
+    $.get(_status_uri, _callback);
 }, _wait);
 
 var _start_convert_url = "<?php echo $start_convert_uri; ?>";

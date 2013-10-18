@@ -48,12 +48,24 @@ class Converter extends CI_Controller {
 
             $config['allowed_types'] = '*';
             $config['max_size'] = $this->config->item("max_size");
+            $config["max_filename"] = 0;
             $config['encrypt_name'] = TRUE;
             
             $this->load->library('upload', $config);
-            $this->upload->do_upload('bitstream');
+            if ($this->upload->do_upload('bitstream') === FALSE) {
+                $this->upload->display_errors("<p>", "</p>");
+            }
             
             $upload_data = $this->upload->data();
+            //print_r($upload_data);
+            
+            //檢查內部是否有上傳成功
+            if (!is_file($upload_data["full_path"])) {
+                //$this->_message("upload failed");
+                $upload_data = $this->_do_php_upload($upload_data);
+                //return;
+            }
+            
             $internal_name = $upload_data['file_name'];
             $original_name = $upload_data['orig_name'];
             
@@ -76,6 +88,39 @@ class Converter extends CI_Controller {
             return $this->wait($bitstream_id);
         }
         
+        private function _do_php_upload($upload_data) {
+            $field_name = "bitstream";
+            $tmp_path = $_FILES[$field_name]["tmp_name"];
+            
+            $target_path = $this->_create_random_filename();
+            while (is_file($target_path)) {
+                $target_path = $this->_create_random_filename();
+            }
+            move_uploaded_file($tmp_path, $target_path);
+            
+            $upload_data['file_name'] = substr($target_path, strrpos($target_path, DIRECTORY_SEPARATOR)+1);
+            $upload_data["orig_name"] = $_FILES[$field_name]["name"];
+            
+            return $upload_data;
+        }
+        
+        /**
+         * 建立亂數檔案名稱
+         * @return String
+         */
+        private function _create_random_filename() {
+            $field_name = "bitstream";
+            $upload_path = $this->config->item("upload_path");
+            
+            $filename = md5(uniqid(rand(), true));
+            $origname = $_FILES[$field_name]["name"];
+            $extname = substr($origname, strrpos($origname, ".")+1);
+            
+            $target_path = get_root_path($upload_path."/".$filename.".".$extname);
+            return $target_path;
+        }
+
+
         /**
          * 顯示轉換中的等待訊息
          * @param int $bitream_id
@@ -264,11 +309,7 @@ class Converter extends CI_Controller {
          * @param int $bitstream_id
          */
         public function deleted() {
-            $view_data["page_title"] = $this->lang->line("page_title");
-            $view_data["message"] = $this->lang->line("deleted");
-            $this->load->view('component/header', $view_data);
-            $this->load->view('component/message', $view_data);
-            $this->load->view('component/footer');
+            $this->_message($this->lang->line("deleted"));
         }
         
         /**
@@ -331,6 +372,18 @@ class Converter extends CI_Controller {
             // @TODO sqlite目錄
             // @TODO sqlite檔案權限改變
             // @TODO convert-files目錄
+        }
+        
+        /**
+         * 顯示訊息
+         * @param {String} $message
+         */
+        private function _message($message) {
+            $view_data["page_title"] = $this->lang->line("page_title");
+            $view_data["message"] = $message;
+            $this->load->view('component/header', $view_data);
+            $this->load->view('component/message', $view_data);
+            $this->load->view('component/footer');
         }
 }
 
