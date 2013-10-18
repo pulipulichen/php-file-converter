@@ -7,7 +7,8 @@ if (isset($message)) {
 ?>
     </span>
     <span id="status">
-        is converting now. Please Wait.
+        is converting now. Please Wait. <br />
+        <img src="<?php echo base_url("images/ajax-loader.gif"); ?>" />
     </span>
 </p>
 <script type="text/javascript">
@@ -24,9 +25,13 @@ var _callback = function (_data) {
     }
     else if (_data != "wait") {
         _href = "<?php echo $download_uri; ?>/" + _data;
-        $("#status").html(" is converted successful. Download link: "
-            + '<a href="'+_href+'" tartget="download">'+_href+'</a>');
-        $.get(_href);
+        $("#status").html(" is converted successful. <br /> Download link: "
+            + '<a href="'+_href+'" tartget="download">'+_href+'</a> <br />'
+            + ' <img src="<?php echo base_url("images/checkmark.png"); ?>" />');
+        //$.get(_href);
+        setTimeout(function () {
+            location.href = _href;
+        }, 1000);
         return;
     }
     location.href = _href;
