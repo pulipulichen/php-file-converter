@@ -50,9 +50,9 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'sqlite:'.APPPATH.'db/php-file-converter.sqlite.db';
 
-$custom_db = get_root_path()."/application/db/php-file-converter.sqlite.db";
-$orig_db = get_root_path()."/application/db/php-file-converter.sqlite.orig.db";
-if (!is_file(get_root_path()."/application/db/php-file-converter.sqlite.db")) {
+$custom_db = get_root_path()."application/db/php-file-converter.sqlite.db";
+$orig_db = get_root_path()."application/db/php-file-converter.sqlite.orig.db";
+if (!is_file(get_root_path()."application/db/php-file-converter.sqlite.db")) {
     copy($orig_db, $custom_db);
 }
 

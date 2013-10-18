@@ -9,7 +9,7 @@
 /**
  * 轉換器名稱
  */
-$config['converter']["name"] = "dos_copy";
+$config['converter']["name"] = "pdf2htmlex";
 
 /**
  * 轉換完成的資料類型
@@ -17,15 +17,7 @@ $config['converter']["name"] = "dos_copy";
  * @example "text/html" HTML檔案
  * @example NULL 表示跟來源檔案相同類型
  */
-$config['converter']["mime"] = NULL;
-
-/**
- * 轉換完成的副檔名
- * 
- * @example "html" HTML檔案
- * @example NULL 表示跟來源檔案相同副檔名
- */
-$config['converter']["extension"] = NULL;
+$config['converter']["mime"] = "text/html";
 
 /**
  * 轉換手續
@@ -44,7 +36,9 @@ $config['converter']["extension"] = NULL;
  * )
  */
 $config['converter']["script"] = array(
-    "copy [PATH] [OUTPUT_DIR][FILE_NAME]-copy.[EXT_NAME]"
+    "cd [DIR]",
+    "pdf2htmlEX [FULLNAME] [FILE_NAME].html",
+    "mv [FILE_NAME].html ../completed"
 );
 
 /**
@@ -57,7 +51,7 @@ $config['converter']["script"] = array(
  * [FILE_NAME] 檔案的名稱
  * [EXT_NAME] 檔案的副檔名
  */
-$config['converter']["output_path"] = "[OUTPUT_DIR][FILE_NAME]-copy.[EXT_NAME]";
+$config['converter']["output_path"] = "[OUTPUT_DIR][FILE_NAME].html";
 
 /**
  * 輸出檔案名稱
@@ -69,7 +63,7 @@ $config['converter']["output_path"] = "[OUTPUT_DIR][FILE_NAME]-copy.[EXT_NAME]";
  * [FILE_NAME] 檔案的名稱
  * [EXT_NAME] 檔案的副檔名
  */
-$config['converter']["output_name"] = "[ORI_NAME]-copy.[EXT_NAME]";
+$config['converter']["output_name"] = "[ORI_NAME].html";
 
 
 /**

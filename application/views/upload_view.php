@@ -29,7 +29,7 @@ if ($this->config->item("debug") > 0) {
 	<h1>PHP File Converter</h1>
 
         
-        <form id="body" action="<?php echo base_url("converter/"); ?>" method="post" enctype="multipart/form-data">
+        <form id="body" action="<?php echo base_url("converter/"); ?>" method="post" enctype="multipart/form-data" tartget="_blank">
         
 <?php
 if (isset($error)) {

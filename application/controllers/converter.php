@@ -63,7 +63,9 @@ class Converter extends CI_Controller {
             $bitstream->set_field("type", "uploaded");
             
             $bitstream->update();
+            
             $bitstream_id = $bitstream->get_id();
+            //echo "[".$bitstream_id."]";
             
             $this->puli_log->create_log($bitstream, "upload");
             

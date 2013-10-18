@@ -52,6 +52,7 @@ class Convert_handler extends KALS_object {
         $this->_lock();
         
         $this->convert_start($bitstream);
+        //return;
         $this->convert_completed($bitstream);
         
         sleep($this->CI->config->item("wait_reload_interval"));
@@ -125,13 +126,17 @@ class Convert_handler extends KALS_object {
         $output_name = $this->_format_path($output_name, $params);
         $output_mime = $converter["mime"];
         $scrtips = $converter["script"];
+        
         foreach ($scrtips as $step) {
             // 取代$step的資料
             $step = $this->_format_path($step, $params);
-            exec($step);
+            echo exec($step);
             //echo $step;
         }
+        //return;
+        
         //轉換完成，取得資料
+        echo $output_path;
         if (is_file($output_path)) {
             $converted_bitstream = new Bitstream();
             $internal_name = substr($output_path, strrpos($output_path, DIRECTORY_SEPARATOR)+1);
