@@ -36,11 +36,17 @@ $config['converter']["mime"] = "text/html";
  * )
  */
 $config['converter']["script"] = array(
-    "cd [DIR]",
-    //"pdf2htmlEX [FULLNAME] [FILE_NAME].html",
-    "cp [FULLNAME] [FILE_NAME].html",
+    //"~/.bashrc",
+    //"cd [DIR]",
+    "pdf2htmlEX --zoom 2 [FULLNAME] [FILE_NAME].html",
+    //"cp [FULLNAME] [FILE_NAME].html",
     "mv [FILE_NAME].html ../completed/"
 );
+/*
+$config['converter']["script"] = array(
+    "/opt/lampp/htdocs/php-file-converter/convert-files/pdf2htmlEX.sh [FULLNAME] [FILE_NAME].html",
+);
+*/
 
 /**
  * 輸出檔案位置

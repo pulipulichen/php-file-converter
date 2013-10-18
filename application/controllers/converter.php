@@ -321,6 +321,10 @@ class Converter extends CI_Controller {
             
             $convert_handler = new Convert_handler();
             $convert_handler->unlock();
+            
+            $this->load->view('component/header');
+            $this->load->view('unlock_view');
+            $this->load->view('component/footer');
         }
         
         /**
@@ -382,7 +386,7 @@ class Converter extends CI_Controller {
             $view_data["page_title"] = $this->lang->line("page_title");
             $view_data["message"] = $message;
             $this->load->view('component/header', $view_data);
-            $this->load->view('component/message', $view_data);
+            $this->load->view('component/error', $view_data);
             $this->load->view('component/footer');
         }
 }

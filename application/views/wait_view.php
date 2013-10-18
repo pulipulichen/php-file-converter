@@ -1,8 +1,15 @@
+<p>
+    <span style="font-weight: bold;">
 <?php
 if (isset($message)) {
-    echo $message . " is converting now. Please Wait.";
+    echo $message;
 }
 ?>
+    </span>
+    <span id="status">
+        is converting now. Please Wait.
+    </span>
+</p>
 <script type="text/javascript">
     
 //setTimeout(function () {
@@ -17,6 +24,10 @@ var _callback = function (_data) {
     }
     else if (_data != "wait") {
         _href = "<?php echo $download_uri; ?>/" + _data;
+        $("#status").html(" is converted successful. Download link: "
+            + '<a href="'+_href+'" tartget="download">'+_href+'</a>');
+        $.get(_href);
+        return;
     }
     location.href = _href;
 }
@@ -32,3 +43,4 @@ var _start_convert_url = "<?php echo $start_convert_uri; ?>";
 $.get(_start_convert_url, "_blank");
 
 </script>
+<p><a href="<?php echo base_url(); ?>">Return to homepage</a>.</p>

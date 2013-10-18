@@ -142,9 +142,13 @@ class Convert_handler extends KALS_object {
         foreach ($scrtips as $step) {
             // 取代$step的資料
             $step = $this->_format_path($step, $params);
-            exec($step, $output);
+            //exec($step, $output);
+            
+            //echo system($step, $output);
+            //passthru($step);
+            //$output = array();
+            exec($step);
             /*
-            echo exec($step, $output);
             if (is_array($output)) {
                 foreach ($output AS $o) {
                     echo $o."<br />";
@@ -173,7 +177,9 @@ class Convert_handler extends KALS_object {
         }
         else {
             $this->puli_log->create_log($bitstream, $converter_name."_error");
+            return false;
         }
+        return true;
     }
     
     private function _format_path($path, $params) {
