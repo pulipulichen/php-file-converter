@@ -32,6 +32,7 @@ $config['converter']["extension"] = NULL;
  * 
  * [PATH] 檔案的路徑與檔案名稱
  * [DIR] 檔案所在的目錄，包含最後的/
+ * [OUTPUT_DIR] 輸出所在的目錄，包含最後的/
  * [FULLNAME] 檔案全名
  * [FILE_NAME] 檔案的名稱
  * [EXT_NAME] 檔案的副檔名
@@ -43,19 +44,33 @@ $config['converter']["extension"] = NULL;
  * )
  */
 $config['converter']["script"] = array(
-    "copy [PATH] [DIR][FILE_NAME]-copy.[EXT_NAME]"
+    "copy [PATH] [OUTPUT_DIR][FILE_NAME]-copy.[EXT_NAME]"
 );
 
 /**
+ * 輸出檔案位置
  * 
- * 在此設定要轉換的bash腳本
- * 
- * 輸入檔案名稱為：[INPUT_FILE]
- * 輸出檔案名稱為：[OUTPUT_FILE]
- * 
- * 例1：copy [INPUT_FILE] [OUTPUT_FILE]
+ * [PATH] 檔案的路徑與檔案名稱
+ * [DIR] 檔案所在的目錄，包含最後的/
+ * [OUTPUT_DIR] 輸出所在的目錄，包含最後的/
+ * [FULLNAME] 檔案全名
+ * [FILE_NAME] 檔案的名稱
+ * [EXT_NAME] 檔案的副檔名
  */
-$config['script']	= 'copy [INPUT_FILE] [OUTPUT_FILE]';
+$config['converter']["output_path"] = "[OUTPUT_DIR][FILE_NAME]-copy.[EXT_NAME]";
+
+/**
+ * 輸出檔案名稱
+ * 
+ * [PATH] 檔案的路徑與檔案名稱
+ * [DIR] 檔案所在的目錄，包含最後的/
+ * [OUTPUT_DIR] 輸出所在的目錄，包含最後的/
+ * [FULLNAME] 檔案全名
+ * [FILE_NAME] 檔案的名稱
+ * [EXT_NAME] 檔案的副檔名
+ */
+$config['converter']["output_name"] = "[ORI_NAME]-copy.[EXT_NAME]";
+
 
 /**
  * --------------------------------------------------------------------------

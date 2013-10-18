@@ -113,8 +113,9 @@ class Bitstream extends Generic_object {
         $type = $this->get_field("type");
 
         $dir_path = $this->CI->config->item("upload_path");
-        if ($type == "converted") {
-            $dir_path = $this->CI->config->item("convert_files", "completed");
+        if ($type != "uploaded") {
+            $convert_files = $this->CI->config->item("convert_files");
+            $dir_path = $convert_files["completed"];
         }
         $dir_path = format_dir_separator($dir_path);
         
@@ -159,6 +160,15 @@ class Bitstream extends Generic_object {
     }
     
     /**
+     * 取得原始檔案的名稱
+     * @return type
+     */
+    public function get_original_file_name() {
+        $fullname = $this->get_original_name();
+        return substr($fullname, 0, strrpos($fullname, "."));
+    }
+    
+    /**
      * 取得檔案的副檔名
      * @return type
      */
@@ -174,7 +184,9 @@ class Bitstream extends Generic_object {
         $path = $this->get_path();
         
         if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
-            unlink($path);
+            if (is_file($path)) {
+                unlink($path);
+            }
         }
         
         if ($this->CI->config->item("reserve_original") === TRUE
@@ -266,9 +278,15 @@ class Bitstream extends Generic_object {
             $db->where("original_id", $this->get_id());
             //echo $this->get_id();
             $query = $db->get();
+            
+            //echo "[".$query->num_rows()."]";
             if ($query->num_rows() > 0) {
-                $result = $query->result();
+                $result = $query->result_array();
+                $result = $result[0];
                 $this->converted_bitstream = new Bitstream($result[$this->primary_key]);
+            }
+            else {
+                return null;
             }
         }
         return $this->converted_bitstream;
@@ -279,7 +297,7 @@ class Bitstream extends Generic_object {
      * @return Boolean
      */
     public function is_convert_completed() {
-        return (is_null($this->get_converted_bitstream()));
+        return (!is_null($this->get_converted_bitstream()));
     }
     
     /**

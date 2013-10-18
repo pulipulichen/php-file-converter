@@ -71,7 +71,7 @@ class Converter extends CI_Controller {
             //$this->_start_convert_cli();
             
             // 記錄完畢，header去wait
-            $this->wait($bitstream_id);
+            return $this->wait($bitstream_id);
         }
         
         /**
@@ -84,7 +84,7 @@ class Converter extends CI_Controller {
             
             //sleep(1);
             $is_convert_completed = $bitstream->is_convert_completed();
-            
+            echo $is_convert_completed;
             if ($is_convert_completed === FALSE) {
                 //還沒轉換完成喔
                 
@@ -92,11 +92,11 @@ class Converter extends CI_Controller {
                 $view_data["page_title"] = $this->lang->line("page_title");
 
                 $view_data["message"] = $name . $this->lang->line("wait");
-                $view_data["start_convert"] = base_url('converter/start_convert');
-                $view_data["wait_uri"] = base_url('converter/'. $bitstream_id);
-                $view_data["status_uri"] = base_url('status/'. $bitstream_id);
-                $view_data["download_uri"] = base_url('download/'. $bitstream_id);
-                $view_data["deleted_uri"] = base_url('deleted/'. $bitstream_id);
+                $view_data["start_convert_uri"] = base_url('converter/start_convert');
+                $view_data["wait_uri"] = base_url('converter/wait/'. $bitstream_id);
+                $view_data["status_uri"] = base_url('converter/status/'. $bitstream_id);
+                $view_data["download_uri"] = base_url('converter/download/');
+                $view_data["deleted_uri"] = base_url('converter/deleted/'. $bitstream_id);
                 $view_data["wait_reload_interval"] = $this->config->item("wait_reload_interval");
 
                 $this->load->view('component/header', $view_data);
@@ -108,11 +108,10 @@ class Converter extends CI_Controller {
                 
                 $converted_bitstream = $bitstream->get_converted_bitstream();
                 
-                $this->puli_log->create_log($bitstream, "delete");
+                //$this->puli_log->create_log($bitstream, "delete");
+                //$bitstream->delete();
                 
-                $bitstream->delete();
-                
-                $this->download($converted_bitstream);
+                $this->download($converted_bitstream->get_id());
             }
 	}
         
@@ -141,10 +140,10 @@ class Converter extends CI_Controller {
          * 啟動轉換器，供命令列CLI使用
          */
         public function start_convert() {
-            $this->load->library("Converter");
+            $this->load->library("Convert_handler");
             
-            $converter = new Converter();
-            $converter->start_convert();
+            $convert_handler = new Convert_handler();
+            $convert_handler->start();
         }
         
         /**
@@ -165,12 +164,7 @@ class Converter extends CI_Controller {
          */
         public function download($bitstream_id) {
             
-            if (is_int($bitstream_id)) {
-                $bitstream = new Bitstream($bitstream_id);
-            }
-            else {
-                $bitstream = $bitstream_id;
-            }
+            $bitstream = new Bitstream($bitstream_id);
             
             // 如果bs已經被刪除，轉移到錯誤訊息
             if (!is_object($bitstream) || $bitstream->is_deleted()) {
@@ -188,7 +182,7 @@ class Converter extends CI_Controller {
             $name = $bitstream->get_original_name();
             $name = urldecode($name);
 
-            download_contents($filepath, $type, $name);
+            $this->_download_contents($filepath, $type, $name);
         }
         
         /**
@@ -197,14 +191,14 @@ class Converter extends CI_Controller {
         * Was:
         * function download_contents($content, $type, $name, $size, $force_download = false) {
         */
-       private function download_contents($content, $type, $name) {
+       private function _download_contents($content, $type, $name) {
           $chunksize = 1*(1024*1024); // how many bytes per chunk
           $buffer = '';
           $handle = fopen($content, 'rb');
 
           $size = filesize($content);
           //echo $size;
-          download_headers($name, $type, $size);
+          $this->_download_headers($name, $type, $size);
 
           if ($handle === false) {
             return false;
@@ -221,7 +215,7 @@ class Converter extends CI_Controller {
         /**
         * function download_headers($type, $name, $size, $force_download = false)
         */
-        private function download_headers($name, $type, $size, $force_download = true) {
+        private function _download_headers($name, $type, $size, $force_download = true) {
           if ($force_download) {
             /** SAVR 10/20/06
             * Was:

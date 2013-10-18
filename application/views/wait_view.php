@@ -1,6 +1,6 @@
 <?php
 if (isset($message)) {
-    echo $message;
+    echo $message . " convert now. Please Wait.";
 }
 ?>
 <script type="text/javascript">
@@ -9,7 +9,7 @@ if (isset($message)) {
 //    location.href = '<?php echo $wait_uri ?>';
 //}, <?php echo $wait_reload_interval * 1000; ?>);
 
-var _status_url = "<?php $status_uri ?>";
+var _status_uri = "<?php echo $status_uri ?>";
 var _callback = function (_data) {
     var _href = "<?php echo $wait_uri; ?>";
     if (_data == "deleted") {
@@ -24,10 +24,10 @@ var _callback = function (_data) {
 var _wait = <?php echo $wait_reload_interval * 1000; ?>;
 
 setTimeout(function () {
-    //$.get(_status_url, _callback);
+    $.get(_status_uri, _callback);
 }, _wait);
 
-var _start_convert_url = "<?php echo $start_convert_url; ?>";
-//$.get(_start_convert_url);
+var _start_convert_url = "<?php echo $start_convert_uri; ?>";
+$.get(_start_convert_url);
 
 </script>
