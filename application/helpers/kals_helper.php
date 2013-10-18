@@ -523,5 +523,35 @@ if ( ! function_exists('get_user_ip')) {
     }
 }
 
+if ( ! function_exists('format_dir_separator')) {
+    /**
+     * 修飾目錄分隔的功能
+     * @return {String} 修正後的目錄路徑
+     */
+    function format_dir_separator($path) {
+        $replace_separator = "/";
+        if ($replace_separator == DIRECTORY_SEPARATOR) {
+            $replace_separator = "\\";
+        }
+        $path = str_replace($replace_separator, DIRECTORY_SEPARATOR, $path);
+        return $path;
+    }
+}
+
+if ( ! function_exists('get_root_path')) {
+    /**
+     * 取得application根目錄的路徑
+     * @return {String} 修正後的目錄路徑
+     */
+    function get_root_path() {
+        $filepath = __FILE__;
+        $needle = "application";
+        $index_dir = substr($filepath, 0, strpos($filepath, $needle));
+        return $index_dir;
+    }
+}
+
+
+
 /* End of file kals_helper.php */
 /* Location: ./system/application/helpers/kals_helper.php */

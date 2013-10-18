@@ -116,11 +116,7 @@ class Bitstream extends Generic_object {
         if ($type == "converted") {
             $dir_path = $this->CI->config->item("convert_files", "completed");
         }
-        $replace_separator = "/";
-        if ($replace_separator == DIRECTORY_SEPARATOR) {
-            $replace_separator = "\\";
-        }
-        $dir_path = str_replace($replace_separator, DIRECTORY_SEPARATOR, $dir_path);
+        $dir_path = format_dir_separator($dir_path);
         
         if (substr($dir_path, -1) != DIRECTORY_SEPARATOR) {
             $dir_path = $dir_path . DIRECTORY_SEPARATOR;
@@ -135,6 +131,43 @@ class Bitstream extends Generic_object {
     }
     
     /**
+     * 取得檔案的目錄
+     * @return String
+     */
+    public function get_dir() {
+        $path = $this->get_path();
+        return substr($path, 0, strrpos($path, DIRECTORY_SEPARATOR)+1);
+    }
+    
+    /**
+     * 取得檔案全部名稱，包含副檔名
+     * 
+     * 是get_internal_name()的捷徑
+     * @return {String}
+     */
+    public function get_fullname() {
+        return $this->get_internal_name();
+    }
+    
+    /**
+     * 取得檔案的名稱
+     * @return type
+     */
+    public function get_file_name() {
+        $fullname = $this->get_fullname();
+        return substr($fullname, 0, strrpos($fullname, "."));
+    }
+    
+    /**
+     * 取得檔案的副檔名
+     * @return type
+     */
+    public function get_ext_name() {
+        $fullname = $this->get_fullname();
+        return substr($fullname, strrpos($fullname, ".")+1);
+    }
+
+        /**
      * 刪除時，同時刪除檔案系統中的檔案
      */
     public function delete() {
@@ -216,10 +249,14 @@ class Bitstream extends Generic_object {
      */
     public function get_converted_bitstream() {
         if (is_null($this->get_converted_bitstream())) {
+            /**
+             * @var CI_DB_driver 
+             */
             $db = $this->CI->db;
         
             $db->select($this->primary_key);
             $db->from($this->table_name);
+            $db->limit(0, 1);
             $db->where("original_id", $this->get_id());
             
             $query = $db->get();

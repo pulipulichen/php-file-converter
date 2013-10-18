@@ -35,10 +35,20 @@ class Converter extends KALS_object {
     }
 
     public function start() {
+        // 檢查是否已經上鎖
+        if ($this->_is_locked()) {
+            // 如果已經上鎖，那就不做任何事情
+            return;
+        }
+        
+        //先上鎖
+        $this->_lock();
+        
         $bitstream = $this->get_original_bitstream();
         
         if (is_null($bitstream)) {
             // 完成轉換，停止
+            $this->_unlock();
             return $this;
         }
         
@@ -57,7 +67,7 @@ class Converter extends KALS_object {
         $sql = "select a.bitstream_id as orgianl_id, count(b.bitstream_id) as counverted_count "
             . "from bitstream as a left join bitstream as b on a.bitstream_id = b.original_id "
             . "group by a.bitstream_id "
-            . "where converted_count < " . count($this->CI->config->item("converter"))." "
+            . "where converted_count = 0 "
             . "order by a.bitstream_id asc limit 0,1";
         $query = $this->db->query($sql);
         
@@ -80,11 +90,14 @@ class Converter extends KALS_object {
         
         // 開始進行轉換的手續
         
-        $input_file = $bitstream->get_path();
-        $converters = $this->CI->config->item("converter");
+        $params["PATH"] = $bitstream->get_path();
+        $params["DIR"] = $bitstream->get_dir();
+        $params["FULLNAME"] = $bitstream->get_fullname();
+        $params["EXT_NAME"] = $bitstream->get_ext_name();
+        $params["FILE_NAME"] = $bitstream->get_file_name();
         
-        foreach ($converters as $converter) {
-            
+        $converter = $this->CI->config->item("converter");
+        
             $converter_name = $converter["name"];
             $internal_name = $bitstream->get_internal_name();
             $output_file = $this->get_completed_dir() . $internal_name;
@@ -92,8 +105,11 @@ class Converter extends KALS_object {
             $scrtips = $converter["script"];
             foreach ($scrtips as $step) {
                 // 取代$step的資料
-                $step = str_replace("[INPUT_FILE]", $input_file, $step);
-                $step = str_replace("[OUTPUT_FILE]", $output_file, $step);
+                $step = str_replace("[PATH]", $params["PATH"], $step);
+                $step = str_replace("[DIR]", $params["DIR"], $step);
+                $step = str_replace("[FULLNAME]", $params["FULLNAME"], $step);
+                $step = str_replace("[EXT_NAME]", $params["EXT_NAME"], $step);
+                $step = str_replace("[FILE_NAME]", $params["FILE_NAME"], $step);
                 
                 exec($step);
             }
@@ -115,7 +131,6 @@ class Converter extends KALS_object {
             else {
                 $this->log->create_log($bitstream, $converter_name."_error");
             }
-        }
         
         return $this;
     }
@@ -127,11 +142,7 @@ class Converter extends KALS_object {
     public function get_completed_dir() {
         $dir_path = $this->CI->config->item("convert_files", "completed");
         
-        $replace_separator = "/";
-        if ($replace_separator == DIRECTORY_SEPARATOR) {
-            $replace_separator = "\\";
-        }
-        $dir_path = str_replace($replace_separator, DIRECTORY_SEPARATOR, $dir_path);
+        $dir_path = format_dir_separator($dir_path);
         
         if (substr($dir_path, -1) != DIRECTORY_SEPARATOR) {
             $dir_path = $dir_path . DIRECTORY_SEPARATOR;
@@ -161,6 +172,52 @@ class Converter extends KALS_object {
     public function convert_completed($bitstream) {
         $this->log->create_log($bitstream, 'convert_completed');
         return $this;
+    }
+    
+    /**
+     * 上鎖
+     */
+    private function _lock() {
+        if ($this->_is_locked()) {
+            return;
+        }
+        $date = $this->_get_lock_content();
+        file_put_contents($this->_get_lock_file_path(), $date);
+    }
+    
+    /**
+     * 解鎖
+     */
+    private function _unlock() {
+        if ($this->_is_locked() === FALSE) {
+            return;
+        }
+        unlink($this->_get_lock_path());
+    }
+    
+    /**
+     * 是否上鎖
+     */
+    private function _is_locked() {
+        return is_file($this->_get_lock_file_path());
+    }
+    
+    /**
+     * 取得上鎖檔案路徑
+     * @return {String}
+     */
+    private function _get_lock_file_path() {
+        $rootpath = get_root_path();
+        return $rootpath."converter-lock.txt";
+    }
+    
+    /**
+     * 設定上鎖檔案內容
+     * @return {String}
+     */
+    private function _get_lock_content() {
+        $date = date("Y/m/d G:i:s");
+        return $date;
     }
 }
 

@@ -64,7 +64,7 @@ class Converter extends CI_Controller {
             $this->log->create_log($bitstream, "upload");
             
             // 觸動轉檔工作
-            $this->start_convert();
+            $this->_start_convert_cli();
             
             // 記錄完畢，header去wait
             $this->wait($bitstream_id);
@@ -104,17 +104,44 @@ class Converter extends CI_Controller {
                 
                 $bitstream->delete();
                 
-                $this->download($converted_bitstream->get_id());
+                $this->download($converted_bitstream);
             }
 	}
         
+        /**
+         * 啟動轉換器，供命令列CLI使用
+         */
+        public function start_convert() {
+            $this->load->library("Converter");
+            
+            $converter = new Converter();
+            $converter->start_convert();
+        }
+        
+        /**
+         * 以命令列的方式啟動轉換器
+         */
+        private function _start_convert_cli() {
+            $filepath = __FILE__;
+            $needle = "application";
+            $index_dir = substr($filepath, 0, strpos($filepath, $needle));
+            $index_path = $index_dir . "index.php";
+            
+            $command = "php";
+        }
+
         /**
          * 下載檔案
          * @param int $bitstream_id
          */
         public function download($bitstream_id) {
             
-            $bitstream = new Bitstream($bitstream_id);
+            if (is_int($bitstream_id)) {
+                $bitstream = new Bitstream($bitstream_id);
+            }
+            else {
+                $bitstream = $bitstream_id;
+            }
             
             // 如果bs已經被刪除，轉移到錯誤訊息
             if ($bitstream->is_deleted()) {
@@ -122,11 +149,91 @@ class Converter extends CI_Controller {
             }
             
             // 記錄檔案下載
-            
+            $this->log->create_log($bitstream, "download");
             
             // 輸出檔案
+            $filepath = $bitstream->get_path();
+
+            //$type = "application/octet-stream";
+            $type = $bitstream->get_mime();
+            $name = $bitstream->get_original_name();
+            $name = urldecode($name);
+
+            download_contents($filepath, $type, $name);
         }
         
+        /**
+        * SAVR 10/20/06 : force file download over SSL for IE
+        * BIP  09/17/07 : inserted and tested for ProjectPier 
+        * Was:
+        * function download_contents($content, $type, $name, $size, $force_download = false) {
+        */
+       private function download_contents($content, $type, $name) {
+          $chunksize = 1*(1024*1024); // how many bytes per chunk
+          $buffer = '';
+          $handle = fopen($content, 'rb');
+
+          $size = filesize($content);
+          //echo $size;
+          download_headers($name, $type, $size);
+
+          if ($handle === false) {
+            return false;
+          }
+          while (!feof($handle)) {
+            $buffer = fread($handle, $chunksize);
+            print $buffer;
+            flush();
+            ob_flush();
+          }
+          return fclose($handle);
+      } // download_contents
+
+        /**
+        * function download_headers($type, $name, $size, $force_download = false)
+        */
+        private function download_headers($name, $type, $size, $force_download = true) {
+          if ($force_download) {
+            /** SAVR 10/20/06
+            * Was:
+            * header("Cache-Control: public");
+            */
+            header("Cache-Control: public, must-revalidate");
+            if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE") == false) {
+                  header("Pragma: hack");
+            }
+            else {
+                header('Pragma: public');
+            }
+          } else {
+            header("Cache-Control: no-store, no-cache, must-revalidate");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE") == false) {
+                  header("Pragma: no-cache");
+            }
+            else {
+                header('Pragma: public');
+            }
+          } // if
+          header("Expires: " . gmdate("D, d M Y H:i:s", mktime(date("H") + 2, date("i"), date("s"), date("m"), date("d"), date("Y"))) . " GMT");
+          header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+          header("Content-Type: $type");
+          header("Content-Length: $size");
+          // Prepare disposition
+          $disposition = $force_download ? 'attachment' : 'inline';
+          // http://www.ietf.org/rfc/rfc2183.txt
+          $download_name = strtr($name, " ()<>@,;:\\/[]?=*%'\"", '--------------------');
+          //$download_name = normalize($download_name);
+          // Generate the server headers
+          if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+              $download_name = iconv('utf-8', 'big5', $download_name);
+              header('Pragma: public');
+          }
+          header("Content-Disposition: $disposition; filename=\"$download_name\"");
+          //header("Content-Disposition: $disposition; filename=$download_name");
+          header("Content-Transfer-Encoding: binary");
+        }
+
         /**
          * 顯示已經被錯誤下載的訊息
          * @param int $bitstream_id

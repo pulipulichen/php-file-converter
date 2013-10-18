@@ -9,7 +9,7 @@
 /**
  * 轉換器名稱
  */
-$config['converter'][0]["name"] = "dos_copy";
+$config['converter']["name"] = "dos_copy";
 
 /**
  * 轉換完成的資料類型
@@ -17,7 +17,7 @@ $config['converter'][0]["name"] = "dos_copy";
  * @example "text/html" HTML檔案
  * @example NULL 表示跟來源檔案相同類型
  */
-$config['converter'][0]["mime"] = NULL;
+$config['converter']["mime"] = NULL;
 
 /**
  * 轉換完成的副檔名
@@ -25,13 +25,16 @@ $config['converter'][0]["mime"] = NULL;
  * @example "html" HTML檔案
  * @example NULL 表示跟來源檔案相同副檔名
  */
-$config['converter'][0]["extension"] = NULL;
+$config['converter']["extension"] = NULL;
 
 /**
  * 轉換手續
  * 
- * 輸入檔案名稱為：[INPUT_FILE]
- * 輸出檔案名稱為：[OUTPUT_FILE]
+ * [PATH] 檔案的路徑與檔案名稱
+ * [DIR] 檔案所在的目錄，包含最後的/
+ * [FULLNAME] 檔案全名
+ * [FILE_NAME] 檔案的名稱
+ * [EXT_NAME] 檔案的副檔名
  * 
  * 因為有可能是多個步驟，所以必須以陣列儲存
  * 
@@ -39,8 +42,8 @@ $config['converter'][0]["extension"] = NULL;
  *  "copy [INPUT_FILE] [OUTPUT_FILE]"
  * )
  */
-$config['converter'][0]["script"] = array(
-    "copy [INPUT_FILE] [OUTPUT_FILE]"
+$config['converter']["script"] = array(
+    "copy [PATH] [DIR][FILE_NAME]-copy.[EXT_NAME]"
 );
 
 /**
