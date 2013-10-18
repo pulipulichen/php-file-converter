@@ -333,7 +333,10 @@ class Converter extends CI_Controller {
         public function reset() {
             $debug = false;
             
-            $this->unlock();
+            $this->load->library("Convert_handler");
+            
+            $convert_handler = new Convert_handler();
+            $convert_handler->unlock();
             
             // 刪除指定目錄檔案
             $file_dirs = $this->config->item("convert_files");

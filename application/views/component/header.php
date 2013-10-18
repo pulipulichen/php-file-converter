@@ -7,7 +7,7 @@
             echo $page_title;
             }
         else {
-            echo "[NO TITLE]";
+            echo "PHP File Converter";
         }
         ?></title>
         <script type="text/javascript" src="<?php echo base_url("js/jquery.js"); ?>"></script>

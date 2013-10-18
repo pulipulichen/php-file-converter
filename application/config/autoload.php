@@ -81,8 +81,8 @@ $autoload['helper'] = array("url_helper");
 */
 
 $autoload['config'] = array("config"
-    , "converter"
-    //, "converter_doscopy"
+    //, "converter"
+    , "converter_doscopy"
 );
 
 
