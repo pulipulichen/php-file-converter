@@ -121,7 +121,7 @@ $config['max_reserved_files']	= 3;
  * @todo 要顯示在上傳表單中
  * PENDING 20131015 尚未實作
  */
-$config['max_file_size']	= 0;
+$config['max_file_size']	= 80;
 $config['max_size'] = $config['max_file_size']; 
 
 /**
@@ -159,7 +159,7 @@ $config['ip_block']['list']	= array();
  * 許可檔案類型設定
  * --------------------------------------------------------------------------
  */
-$config["allowed_types"] = "*";
+$config["allowed_types"] = "pdf";
 
 /**
  * 偵錯等級

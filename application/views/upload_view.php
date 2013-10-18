@@ -68,8 +68,14 @@ if (isset($error)) {
                     <a href="user_guide/" target="user_guide">User Guide</a> (<a href="user_guide_zh_tw/CodeIgniter%202.1.4/www.codeigniter.org.tw/user_guide/index.html" target="user_guide">Traditional Chinese</a>).
                 </p>
                 
-                <p>Checking system detail in <a href="phpliteadmin/phpliteadmin.php" target="phpliteadmin">SQLite Database</a>.</p>
-                <p>Converter setup: 
+                <hr />
+                
+                <h2>Converter setting</h2>
+                    <a href="<?php echo base_url("phpliteadmin/phpliteadmin.php"); ?>" target="phpliteadmin">SQLite Database</a> 
+                        (<a href="<?php echo base_url("phpliteadmin/phpliteadmin.php?table=bitstream&action=row_view&sort=bitstream_id&order=DESC"); ?>" target="phpliteadmin">bitstream</a> 
+                        | 
+                        <a href="<?php echo base_url("phpliteadmin/phpliteadmin.php?table=log&action=row_view&sort=log_id&order=DESC"); ?>" target="phpliteadmin">log</a> )
+                    |
                     <a href="<?php echo base_url("converter/reset") ?>">RESET</a> 
                     |
                     <a href="<?php echo base_url("converter/unlock") ?>">UNLOCK</a> 
