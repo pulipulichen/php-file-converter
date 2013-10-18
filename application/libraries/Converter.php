@@ -20,16 +20,16 @@ class Converter extends KALS_object {
     private $db;
     
     /**
-     * @var Log
+     * @var Puli_log
      */
-    private $log;
+    private $puli_log;
     
     public function __construct() {
         parent::__construct();
         $this->db = $this->CI->db;
         
-        $this->CI->load_library("object/log");
-        $this->log = $this->CI->log;
+        $this->CI->load_library("object/Puli_log");
+        $this->puli_log = $this->CI->puli_log;
         
         $this->CI->load_library("object/bitstream");
     }
@@ -86,7 +86,7 @@ class Converter extends KALS_object {
      * @param Bitstream $bitstream
      */
     public function convert_start($bitstream) {
-        $this->log->create_log($bitstream, 'convert_start');
+        $this->puli_log->create_log($bitstream, 'convert_start');
         
         // 開始進行轉換的手續
         
@@ -126,10 +126,10 @@ class Converter extends KALS_object {
                 
                 $converted_bitstream->save();
                 
-                $this->log->create_log($converted_bitstream, $converter_name."_completed");
+                $this->puli_log->create_log($converted_bitstream, $converter_name."_completed");
             }
             else {
-                $this->log->create_log($bitstream, $converter_name."_error");
+                $this->puli_log->create_log($bitstream, $converter_name."_error");
             }
         
         return $this;
@@ -170,7 +170,7 @@ class Converter extends KALS_object {
      * @param Bitstream $bitstream
      */
     public function convert_completed($bitstream) {
-        $this->log->create_log($bitstream, 'convert_completed');
+        $this->puli_log->create_log($bitstream, 'convert_completed');
         return $this;
     }
     

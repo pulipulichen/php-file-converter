@@ -181,9 +181,9 @@ $config["wait_reload_interval"] = 3;
 /**
  * @var Boolean 是否要保存原始檔案，直到轉換檔案被刪除
  * @example false 預設值，原始檔案在轉換完成之後就會被刪除
- * @example true 原始檔案在轉換檔案完成之後才會被刪除
+ * @example true 原始檔案在轉換檔案被刪除之後才會被刪除
  */
-$config["reserve_original"] = false;
+$config["reserve_original"] = true;
 
 /* End of file converter.php */
 /* Location: ./application/config/converter.php */

@@ -1,7 +1,7 @@
 <?php
 //include_once '../toolkit/Generic_object.php';
 /**
- * Log
+ * Puli_log
  *
  * log full description.
  *
@@ -13,7 +13,7 @@
  * @link		http://sites.google.com/site/puddingkals/
  * @version		1.0 2013/10/15 下午 01:45:13
  */
-class Log extends Generic_object {
+class Puli_log extends Generic_object {
 
     // --------
     // Generic Object 設定
@@ -65,7 +65,7 @@ class Log extends Generic_object {
             $bitstream_id = $bitstream_id->get_id();
         }
         $this->set_field('bitstream_id', $bitstream_id);
-        return this;
+        return $this;
     }
     
     /**
@@ -93,13 +93,12 @@ class Log extends Generic_object {
      * @return Log
      */
     static public function create_log($bitstream, $action) {
-        $log = new Log();
+        $log = new Puli_log();
         $log->set_bitstream($bitstream);
         $log->set_action($action);
         $log->update();
-        return $this;
     }
 }
 
-/* End of file log.php */
-/* Location: ./system/application/libraries/.../log.php */
+/* End of file Puli_log.php */
+/* Location: ./system/application/libraries/.../Puli_log.php */

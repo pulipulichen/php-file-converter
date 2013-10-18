@@ -4,7 +4,30 @@ if (isset($message)) {
 }
 ?>
 <script type="text/javascript">
+    
+//setTimeout(function () {
+//    location.href = '<?php echo $wait_uri ?>';
+//}, <?php echo $wait_reload_interval * 1000; ?>);
+
+var _status_url = "<?php $status_uri ?>";
+var _callback = function (_data) {
+    var _href = "<?php echo $wait_uri; ?>";
+    if (_data == "deleted") {
+        _href = "<?php echo $deleted_uri; ?>";
+    }
+    else if (_data != "wait") {
+        _href = "<?php echo $download_uri; ?>/" + _data;
+    }
+    location.href = _href;
+}
+
+var _wait = <?php echo $wait_reload_interval * 1000; ?>;
+
 setTimeout(function () {
-    location.href = '<?php $wait_uri ?>';
-}, <?php echo $wait_reload_interval * 1000; ?>);
+    //$.get(_status_url, _callback);
+}, _wait);
+
+var _start_convert_url = "<?php echo $start_convert_url; ?>";
+//$.get(_start_convert_url);
+
 </script>

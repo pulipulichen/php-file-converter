@@ -8,20 +8,24 @@
 class Converter extends CI_Controller {
 
         /**
-         * @var Log
+         * @var Puli_log
          */
-        private $log;
+        //private $puli_log = NULL;
     
         /**
          * 預先載入一些函式庫
          */
-        public function __construct() {
+        public function __construct($bitstream_id = NULL) {
             parent::__construct();
             
-            $this->load->library("object/log");
-            $this->log = new Log();
+            $this->load->library("object/Puli_log");
+            //$this->puli_log = new Puli_log();
             
             $this->load->library("object/bitstream");
+            
+            if (is_null($bitstream_id) === FALSE) {
+                $this->index($bitstream_id);
+            }
         }
 
         /**
@@ -61,10 +65,10 @@ class Converter extends CI_Controller {
             $bitstream->update();
             $bitstream_id = $bitstream->get_id();
             
-            $this->log->create_log($bitstream, "upload");
+            $this->puli_log->create_log($bitstream, "upload");
             
             // 觸動轉檔工作
-            $this->_start_convert_cli();
+            //$this->_start_convert_cli();
             
             // 記錄完畢，header去wait
             $this->wait($bitstream_id);
@@ -78,7 +82,7 @@ class Converter extends CI_Controller {
             
             $bitstream = new Bitstream($bitstream_id);
             
-            sleep(1);
+            //sleep(1);
             $is_convert_completed = $bitstream->is_convert_completed();
             
             if ($is_convert_completed === FALSE) {
@@ -88,7 +92,11 @@ class Converter extends CI_Controller {
                 $view_data["page_title"] = $this->lang->line("page_title");
 
                 $view_data["message"] = $name . $this->lang->line("wait");
+                $view_data["start_convert"] = base_url('converter/start_convert');
                 $view_data["wait_uri"] = base_url('converter/'. $bitstream_id);
+                $view_data["status_uri"] = base_url('status/'. $bitstream_id);
+                $view_data["download_uri"] = base_url('download/'. $bitstream_id);
+                $view_data["deleted_uri"] = base_url('deleted/'. $bitstream_id);
                 $view_data["wait_reload_interval"] = $this->config->item("wait_reload_interval");
 
                 $this->load->view('component/header', $view_data);
@@ -100,7 +108,7 @@ class Converter extends CI_Controller {
                 
                 $converted_bitstream = $bitstream->get_converted_bitstream();
                 
-                $this->log->create_log($bitstream, "delete");
+                $this->puli_log->create_log($bitstream, "delete");
                 
                 $bitstream->delete();
                 
@@ -108,6 +116,27 @@ class Converter extends CI_Controller {
             }
 	}
         
+        /**
+         * 處理狀態
+         * @param {Int} $bitstream_id
+         */
+        public function status($bitstream_id) {
+            $bitstream = new Bitstream($bitstream_id);
+            $status = "wait";
+            if ($bitstream->is_deleted()) {
+                $status = "deleted";
+            }
+            else if ($bitstream->is_convert_completed()) {
+                $converted_bitstream = $bitstream->get_converted_bitstream();
+                $status = $converted_bitstream->get_id();
+            }
+            
+            $this->load->view("component/message", array(
+                "message" => $status
+            ));
+        }
+
+
         /**
          * 啟動轉換器，供命令列CLI使用
          */
@@ -144,12 +173,12 @@ class Converter extends CI_Controller {
             }
             
             // 如果bs已經被刪除，轉移到錯誤訊息
-            if ($bitstream->is_deleted()) {
-                $this->deleted($bitstream_id);
+            if (!is_object($bitstream) || $bitstream->is_deleted()) {
+                return $this->deleted($bitstream_id);
             }
             
             // 記錄檔案下載
-            $this->log->create_log($bitstream, "download");
+            $this->puli_log->create_log($bitstream, "download");
             
             // 輸出檔案
             $filepath = $bitstream->get_path();

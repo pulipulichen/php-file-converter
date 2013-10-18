@@ -172,12 +172,18 @@ class Bitstream extends Generic_object {
      */
     public function delete() {
         $path = $this->get_path();
-        unlink($path);
         
-        if ($this->config->item("reserve_original") === TRUE
-                && $this->is_original() === FALSE) {
+        if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
+            unlink($path);
+        }
+        
+        if ($this->CI->config->item("reserve_original") === TRUE
+                && $this->is_original() === FALSE
+                && is_object($this->get_original_bitstream())) {
             $original_bitstream = $this->get_original_bitstream();
-            $original_bitstream->delete();
+            if ($original_bitstream->is_deleted() === FALSE) {
+                $original_bitstream->delete();
+            }
         }
         parent::delete();
     }
@@ -248,7 +254,7 @@ class Bitstream extends Generic_object {
      * @return Bitstream 轉換過的檔案
      */
     public function get_converted_bitstream() {
-        if (is_null($this->get_converted_bitstream())) {
+        if (is_null($this->converted_bitstream)) {
             /**
              * @var CI_DB_driver 
              */
@@ -256,12 +262,12 @@ class Bitstream extends Generic_object {
         
             $db->select($this->primary_key);
             $db->from($this->table_name);
-            $db->limit(0, 1);
+            //$db->limit(0, 1);
             $db->where("original_id", $this->get_id());
-            
+            //echo $this->get_id();
             $query = $db->get();
             if ($query->num_rows() > 0) {
-                $result = $query->result_array();
+                $result = $query->result();
                 $this->converted_bitstream = new Bitstream($result[$this->primary_key]);
             }
         }
