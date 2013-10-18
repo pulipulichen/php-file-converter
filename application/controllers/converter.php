@@ -268,6 +268,14 @@ class Converter extends CI_Controller {
             $this->load->view('component/message', $view_data);
             $this->load->view('component/footer');
         }
+        
+        public function unload() {
+            
+            $this->load->library("Convert_handler");
+            
+            $convert_handler = new Convert_handler();
+            $convert_handler->_unlock();
+        }
 }
 
 /* End of file converter.php */

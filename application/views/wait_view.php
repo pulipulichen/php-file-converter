@@ -28,6 +28,7 @@ setTimeout(function () {
 }, _wait);
 
 var _start_convert_url = "<?php echo $start_convert_uri; ?>";
-window.open(_start_convert_url, "_blank");
+//window.open(_start_convert_url, "_blank");
+$.get(_start_convert_url, "_blank");
 
 </script>

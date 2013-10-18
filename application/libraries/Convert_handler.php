@@ -39,7 +39,6 @@ class Convert_handler extends KALS_object {
         
         if (is_null($bitstream)) {
             // 完成轉換，停止
-            $this->_unlock();
             return $this;
         }
         
@@ -56,6 +55,9 @@ class Convert_handler extends KALS_object {
         $this->convert_completed($bitstream);
         
         sleep($this->CI->config->item("wait_reload_interval"));
+        
+        $this->_unlock();
+        
         $this->start();
     }
     
@@ -69,7 +71,7 @@ class Convert_handler extends KALS_object {
             . "having converted_count = 0 "
             . "and a.deleted = 0 "
             . "and a.type = 'uploaded'"
-            . "order by a.bitstream_id asc limit 0,1";
+            . "order by a.bitstream_id desc limit 0,1";
         $query = $this->db->query($sql);
         
         //echo $query->num_rows();
@@ -216,7 +218,7 @@ class Convert_handler extends KALS_object {
     /**
      * 解鎖
      */
-    private function _unlock() {
+    public function _unlock() {
         if ($this->_is_locked() === FALSE) {
             return;
         }
