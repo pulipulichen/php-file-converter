@@ -1,6 +1,6 @@
 <?php
 if (isset($message)) {
-    echo $message . " convert now. Please Wait.";
+    echo $message . " is converting now. Please Wait.";
 }
 ?>
 <script type="text/javascript">
@@ -28,6 +28,6 @@ setTimeout(function () {
 }, _wait);
 
 var _start_convert_url = "<?php echo $start_convert_uri; ?>";
-$.get(_start_convert_url);
+window.open(_start_convert_url, "_blank");
 
 </script>

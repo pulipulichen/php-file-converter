@@ -35,6 +35,14 @@ class Convert_handler extends KALS_object {
     }
 
     public function start() {
+        $bitstream = $this->get_original_bitstream();
+        
+        if (is_null($bitstream)) {
+            // 完成轉換，停止
+            $this->_unlock();
+            return $this;
+        }
+        
         // 檢查是否已經上鎖
         if ($this->_is_locked()) {
             // 如果已經上鎖，那就不做任何事情
@@ -44,13 +52,6 @@ class Convert_handler extends KALS_object {
         //先上鎖
         $this->_lock();
         
-        $bitstream = $this->get_original_bitstream();
-        
-        if (is_null($bitstream)) {
-            // 完成轉換，停止
-            $this->_unlock();
-            return $this;
-        }
         $this->convert_start($bitstream);
         $this->convert_completed($bitstream);
         

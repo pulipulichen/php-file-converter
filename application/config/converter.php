@@ -87,7 +87,7 @@ $config['upload_path']	= $config['convert_files']['uploaded'];
 /**
  * 轉換中的存放位置
  */
-$config['convert_files']['converting']	= 'convert-files/converting';
+//$config['convert_files']['converting']	= 'convert-files/converting';
 
 /**
  * 轉換完成的存放位置

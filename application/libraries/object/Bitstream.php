@@ -272,16 +272,17 @@ class Bitstream extends Generic_object {
              */
             $db = $this->CI->db;
         
-            $db->select($this->primary_key);
-            $db->from($this->table_name);
+            $db->select("bitstream_id");
+            $db->from("bitstream");
             //$db->limit(0, 1);
             $db->where("original_id", $this->get_id());
             //echo $this->get_id();
             $query = $db->get();
             
+            $result = $query->result_array();
             //echo "[".$query->num_rows()."]";
-            if ($query->num_rows() > 0) {
-                $result = $query->result_array();
+            if (count($result) > 0) {
+                //echo count($result);
                 $result = $result[0];
                 $this->converted_bitstream = new Bitstream($result[$this->primary_key]);
             }
