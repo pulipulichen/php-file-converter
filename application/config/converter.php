@@ -37,8 +37,9 @@ $config['converter']["mime"] = "text/html";
  */
 $config['converter']["script"] = array(
     "cd [DIR]",
-    "pdf2htmlEX [FULLNAME] [FILE_NAME].html",
-    "mv [FILE_NAME].html ../completed"
+    //"pdf2htmlEX [FULLNAME] [FILE_NAME].html",
+    "cp [FULLNAME] [FILE_NAME].html",
+    "mv [FILE_NAME].html ../completed/"
 );
 
 /**

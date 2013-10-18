@@ -39,6 +39,7 @@ class Convert_handler extends KALS_object {
         
         if (is_null($bitstream)) {
             // 完成轉換，停止
+            $this->_unlock();
             return $this;
         }
         
@@ -51,15 +52,22 @@ class Convert_handler extends KALS_object {
         //先上鎖
         $this->_lock();
         
-        $this->convert_start($bitstream);
-        //return;
-        $this->convert_completed($bitstream);
+        while (!is_null($bitstream)) {
         
-        sleep($this->CI->config->item("wait_reload_interval"));
+            $result = $this->convert_start($bitstream);
+            if ($result === FALSE) {
+                return;
+            }
+            $this->convert_completed($bitstream);
+
+            sleep($this->CI->config->item("wait_reload_interval"));
+            
+            $bitstream = $this->get_original_bitstream();
+        }
         
         $this->_unlock();
         
-        $this->start();
+        //$this->start();
     }
     
     /**
@@ -130,16 +138,26 @@ class Convert_handler extends KALS_object {
         }
         $scrtips = $converter["script"];
         
+        chdir($bitstream->get_dir());
         foreach ($scrtips as $step) {
             // 取代$step的資料
             $step = $this->_format_path($step, $params);
-            echo exec($step);
-            //echo $step;
+            exec($step, $output);
+            /*
+            echo exec($step, $output);
+            if (is_array($output)) {
+                foreach ($output AS $o) {
+                    echo $o."<br />";
+                }
+            }
+            echo " - " .$step."<br />";
+             */
         }
         //return;
         
         //轉換完成，取得資料
-        echo $output_path;
+        //echo $output_path;
+        //return false;
         if (is_file($output_path)) {
             $converted_bitstream = new Bitstream();
             $internal_name = substr($output_path, strrpos($output_path, DIRECTORY_SEPARATOR)+1);
