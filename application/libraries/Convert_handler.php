@@ -125,6 +125,9 @@ class Convert_handler extends KALS_object {
         $output_name = $converter["output_name"];
         $output_name = $this->_format_path($output_name, $params);
         $output_mime = $converter["mime"];
+        if (is_null($output_mime)) {
+            $output_mime = $bitstream->get_mime();
+        }
         $scrtips = $converter["script"];
         
         foreach ($scrtips as $step) {
@@ -223,12 +226,19 @@ class Convert_handler extends KALS_object {
     /**
      * 解鎖
      */
-    public function _unlock() {
+    private function _unlock() {
         if ($this->_is_locked() === FALSE) {
             return;
         }
         unlink($this->_get_lock_file_path());
         //echo "unlock!!";
+    }
+    
+    /**
+     * 解鎖的公開版本
+     */
+    public function unlock() {
+        $this->_unlock();
     }
     
     /**

@@ -541,12 +541,24 @@ if ( ! function_exists('format_dir_separator')) {
 if ( ! function_exists('get_root_path')) {
     /**
      * 取得application根目錄的路徑
+     * @param {String} 底下的目錄
      * @return {String} 修正後的目錄路徑
      */
-    function get_root_path() {
+    function get_root_path($path = NULL) {
         $filepath = __FILE__;
         $needle = "application";
         $index_dir = substr($filepath, 0, strpos($filepath, $needle));
+        
+        if (!is_null($path)) {
+            $first_word = substr($path, 0,1);
+            if ($first_word == "\\" || $first_word == "/" ) {
+                $path = substr($path, 1);
+            }
+            
+            $path = format_dir_separator($path);
+            $index_dir = $index_dir . $path;
+        }
+        
         return $index_dir;
     }
 }

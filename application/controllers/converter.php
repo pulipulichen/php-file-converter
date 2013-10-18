@@ -271,12 +271,66 @@ class Converter extends CI_Controller {
             $this->load->view('component/footer');
         }
         
-        public function unload() {
+        /**
+         * 解鎖
+         */
+        public function unlock() {
             
             $this->load->library("Convert_handler");
             
             $convert_handler = new Convert_handler();
-            $convert_handler->_unlock();
+            $convert_handler->unlock();
+        }
+        
+        /**
+         * 重置資料
+         */
+        public function reset() {
+            $debug = false;
+            
+            $this->unlock();
+            
+            // 刪除指定目錄檔案
+            $file_dirs = $this->config->item("convert_files");
+            
+            foreach ($file_dirs AS $file_dir) {
+                $files = get_filenames($file_dir);
+                foreach ($files AS $file) {
+                    $path = get_root_path($file_dir.DIRECTORY_SEPARATOR.$file);
+                    
+                    if ($debug) {
+                        echo "unlink: ". $path . "<br />";
+                    }
+                    else {
+                        unlink($path);
+                    }
+                }
+            }
+            
+            // 刪除SQLite檔案
+            $sqlite_path = get_root_path("application/db/php-file-converter.sqlite.db");
+            $sqlite_orig_path = get_root_path("application/db/php-file-converter.sqlite.orig.db");
+            
+            if ($debug) {
+                echo "copy: ". $sqlite_orig_path . "<br />";
+                echo "copy to: ". $sqlite_path . "<br />";
+            }
+            else {
+                copy($sqlite_orig_path, $sqlite_path);
+            }
+            
+            $this->load->view('component/header');
+            $this->load->view('reset_view');
+            $this->load->view('component/footer');
+        }
+        
+        /**
+         * 初始化目錄
+         */
+        private function _init_dir() {
+            // @TODO sqlite目錄
+            // @TODO sqlite檔案權限改變
+            // @TODO convert-files目錄
         }
 }
 

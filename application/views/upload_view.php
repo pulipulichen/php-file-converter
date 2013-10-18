@@ -49,6 +49,7 @@ if (isset($error)) {
                 </p>
                 
                 <p>Checking system detail in <a href="phpliteadmin/phpliteadmin.php" target="phpliteadmin">SQLite Database</a>.</p>
+                <p>Reset this system with <a href="<?php echo base_url("converter/reset") ?>" target="reset">RESET</a>.</p>
 	</form>
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
