@@ -115,6 +115,11 @@ form .input.submit:active {
     margin-left: 14px;
 }
 
+#container h3 {
+    margin-left: 14px;
+    
+}
+
 #container table caption {
     font-weight: bold;
     text-align: left;
