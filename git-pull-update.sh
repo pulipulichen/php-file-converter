@@ -1,4 +1,4 @@
 #!/bin/bash
 
-git reset --hard
+git reset --hard master
 git pull
