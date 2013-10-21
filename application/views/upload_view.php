@@ -133,17 +133,14 @@ if (isset($error)) {
                 </p>
                 
                 
-                <hr/>
-                <h2>Readme</h2>
-                
-                <?php
-                if (isset($readme)) {
-                    echo $readme;
-                }
-                ?>
-		<p class="message">
-                    <strong>PHP File Converter</strong> is based on CodeIgniter 2.1.4. 
-                </p>
+                <hr size="1" />
+		<div class="readme">
+                    <?php
+                    if (isset($readme)) {
+                        echo $readme;
+                    }
+                    ?>
+                </div>
         
                  <hr/>
                 <h2>License</h2>

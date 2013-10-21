@@ -125,3 +125,13 @@ form .input.submit:active {
     display: inline-block;
     padding-right: 14px;
 }
+
+#container .readme p {
+    margin-left: 14px;
+}
+
+#container .readme h1 {
+    size: 17px;
+    border-width: 0;
+}
+

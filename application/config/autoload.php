@@ -81,7 +81,10 @@ $autoload['helper'] = array("url_helper");
 */
 
 $autoload['config'] = array("config"
-    , "converter_pdf2htmlex"
+    , "converter"
+    
+    // Example Files
+    //, "converter_pdf2htmlex"
     //, "converter_doscopy"
 );
 

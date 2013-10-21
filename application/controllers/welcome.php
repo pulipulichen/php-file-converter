@@ -27,6 +27,11 @@ class Welcome extends CI_Controller {
             
             $chmod_messages = $this->_check_directories_mode();
             $readme = file_get_contents(get_root_path("README.md"));
+            //$this->load->library("php-markdown-lib/Michelf/markdown");
+            require "application/libraries/php-markdown-lib/markdown.php";
+            //require_once get_root_path("application/libraries/php-markdown-lib/Michelf/Markdown.php");
+            $readme = Markdown($readme);
+            
             $license = file_get_contents(get_root_path("LICENSE"));
             
             $this->load->view('component/header');
