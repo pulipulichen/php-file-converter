@@ -3,8 +3,6 @@ PHP File Converter
 
 ##簡介
 
-測試一下
-
 PHP File Converter是一個線上轉檔工具。它的功能為供使用者以瀏覽器上傳來源檔案、伺服器自動轉換為目標檔案、引導使用者下載目標檔案。
 
 [專案程式碼下載](https://github.com/pulipulichen/php-file-converter/archive/master.zip) 
