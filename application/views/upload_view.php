@@ -111,17 +111,13 @@ if (isset($error)) {
                 <input type="file" name="bitstream" id="bitstream" class="input file" />
                 <div><button type="submit" id="submit" class="input submit">SUBMIT</button></div>
                 
-                <hr/>
-                <h2>Readme</h2>
                 
-		<p>
-                    <strong>PHP File Converter</strong> is based on CodeIgniter 2.1.4. <br />If you are exploring CodeIgniter for the very first time, you should start by reading the 
-                    <a href="user_guide/" target="user_guide">User Guide</a> (<a href="user_guide_zh_tw/CodeIgniter%202.1.4/www.codeigniter.org.tw/user_guide/index.html" target="user_guide">Traditional Chinese</a>).
-                </p>
-                
+	</form>
+
                 <hr />
                 
                 <h2>Converter setting</h2>
+                <p class="message">
                     <a href="<?php echo base_url("phpliteadmin/phpliteadmin.php"); ?>" target="phpliteadmin">SQLite Database</a> 
                         (<a href="<?php echo base_url("phpliteadmin/phpliteadmin.php?table=bitstream&action=row_view&sort=bitstream_id&order=DESC"); ?>" target="phpliteadmin">bitstream</a> 
                         | 
@@ -131,6 +127,33 @@ if (isset($error)) {
                     |
                     <a href="<?php echo base_url("converter/unlock") ?>">UNLOCK</a> 
                 </p>
-	</form>
-
+                <p class="message">
+                    Development reference: <a href="user_guide/" target="user_guide">User Guide</a> | <a href="user_guide_zh_tw/CodeIgniter%202.1.4/www.codeigniter.org.tw/user_guide/index.html" target="user_guide">Traditional Chinese</a>.
+                
+                </p>
+                
+                
+                <hr/>
+                <h2>Readme</h2>
+                
+                <?php
+                if (isset($readme)) {
+                    echo $readme;
+                }
+                ?>
+		<p class="message">
+                    <strong>PHP File Converter</strong> is based on CodeIgniter 2.1.4. 
+                </p>
+        
+                 <hr/>
+                <h2>License</h2>
+                
+                <pre class="message">
+                <?php
+                if (isset($license)) {
+                    echo $license;
+                }
+                ?>
+                </pre>
+        
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>

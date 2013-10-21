@@ -26,11 +26,15 @@ class Welcome extends CI_Controller {
             }
             
             $chmod_messages = $this->_check_directories_mode();
+            $readme = file_get_contents(get_root_path("README.md"));
+            $license = file_get_contents(get_root_path("LICENSE"));
             
             $this->load->view('component/header');
             $this->load->view('upload_view', array(
                 "parameters" => $parameters,
-                "chmod_messages" => $chmod_messages
+                "chmod_messages" => $chmod_messages,
+                'readme' => $readme,
+                "license" => $license
             ));
             $this->load->view('component/footer');
 	}
