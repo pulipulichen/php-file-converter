@@ -1,1 +1,1 @@
-<p>Reset successful. <a href="<?php echo base_url(); ?>">Return to homepage</a>.</p>
+<p class='message'>Reset successful. <br /><a href="<?php echo base_url(); ?>">Return to homepage</a>.</p>

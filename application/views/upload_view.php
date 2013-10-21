@@ -28,7 +28,7 @@ if ($this->config->item("debug") > 0) {
 }
 ?>   
         <link rel="icon" href="<?php echo base_url("/favicon.ico"); ?>" type="image/x-icon">
-<div id="container">
+
 	<h1>PHP File Converter</h1>
 
         
@@ -83,7 +83,3 @@ if (isset($error)) {
 	</form>
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
-</div>
-<?php 
-//$this->jquery->fadeIn("p:last");
-?>

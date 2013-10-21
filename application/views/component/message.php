@@ -1,4 +1,4 @@
 <?php
 if (isset($message)) {
-    echo $message;
+    echo "<p class='message'>".$message."</p>";
 }
