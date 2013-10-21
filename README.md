@@ -64,6 +64,7 @@ PHP File Converter是一個線上轉檔工具。它的功能為供使用者以�
 - 提供JSONP API：讓其他系統可以用AJAX跨網域的方式上傳檔案、下載檔案，而不需要在自己的伺服器中建置轉檔工具。
 - 設定IP白名單與黑名單：限定許可使用者範圍
 - 設定登入才能使用
+- 參數(parameter)輸入型態(input_type)增加boolean：打勾表示加入某個參數，不打勾則不加入某個參數
 
 如果您想要這些功能或是有其他建議，歡迎到[問題回報](https://github.com/pulipulichen/php-file-converter/issues/new)中反映（需要GitHub帳號，可免費註冊）。
 
