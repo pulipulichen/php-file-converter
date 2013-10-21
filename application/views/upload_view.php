@@ -55,7 +55,7 @@ if (isset($error)) {
                 </p>
 
                 <?php
-                if (isset($parameters)) {
+                if (is_array($parameters)) {
                     echo "<p><table>";
                     echo "<caption>".$this->lang->line("parameters_caption")."</caption>";
                     echo "<tbody>";

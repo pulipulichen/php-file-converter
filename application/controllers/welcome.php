@@ -47,7 +47,11 @@ class Welcome extends CI_Controller {
             //$view_data["page_title"] = $this->lang->line("page_title");
             
             $converter = $this->config->item("converter");
-            $parameters = $converter["params"];
+            $parameters = NULL;
+            if (isset($converter["params"])) {
+                $parameters = $converter["params"];
+            }
+            
             
             $this->load->view('component/header');
             $this->load->view('upload_view', array(

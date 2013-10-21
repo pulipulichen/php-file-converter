@@ -190,7 +190,7 @@ class Converter extends CI_Controller {
                 $status = $converted_bitstream->get_id();
             }
             
-            $this->load->view("component/message", array(
+            $this->load->view("component/json", array(
                 "message" => $status
             ));
         }
@@ -203,7 +203,11 @@ class Converter extends CI_Controller {
             $this->load->library("Convert_handler");
             
             $convert_handler = new Convert_handler();
-            $convert_handler->start();
+            $result = $convert_handler->start();
+            
+            if (is_string($result)) {
+                $this->_message($result);
+            }
         }
         
         /**

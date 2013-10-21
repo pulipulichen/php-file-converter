@@ -46,7 +46,7 @@ class Convert_handler extends KALS_object {
         // 檢查是否已經上鎖
         if ($this->_is_locked()) {
             // 如果已經上鎖，那就不做任何事情
-            return;
+            return $this->CI->lang->line("convert_handler_locked");
         }
         
         //先上鎖
@@ -181,7 +181,10 @@ class Convert_handler extends KALS_object {
         }
         $scrtips = $converter["script"];
         
-        $params["PARAMS"] = $converter["PARAMS"];
+        if (isset($converter["params"])) {
+            $params["PARAMS"] = $converter["params"];
+            $params["BITSTREAM_PARAMS"] = $bitstream->get_parameters();
+        }
         
         chdir($bitstream->get_dir());
         foreach ($scrtips as $step) {
@@ -193,6 +196,7 @@ class Convert_handler extends KALS_object {
             //passthru($step);
             //$output = array();
             exec($step);
+            echo " - " .$step."<br />";
             /*
             if (is_array($output)) {
                 foreach ($output AS $o) {
@@ -241,13 +245,30 @@ class Convert_handler extends KALS_object {
         $step = str_replace("[ORI_NAME]", $params["ORI_NAME"], $step);
         
         // 處理PARAMS
-        foreach ($params["PARAMS"] as $key => $config) {
-            $index = '[PARAMS_'.$key.']';
-            $value = $config["default_value"];
+        if (isset($params["PARAMS"])) {
+            $bitstream_params = $params["BITSTREAM_PARAMS"];
             
-            // 如何取得value？
-            
-            $step = str_replace($index, $value, $step);
+            foreach ($params["PARAMS"] as $key => $config) {
+                $index = '[PARAMS_'.$key.']';
+                $value = $config["default_value"];
+
+                // 如何取得value？
+                if (isset($bitstream_params[$key])) {
+                    $value = $bitstream_params[$key];
+                    
+                    if (isset($config["input_type"])) {
+                        if ($config["input_type"] == "int") {
+                            $value = (int) $value;
+                        }
+                    }
+                    
+                    if (is_null($value) || $value == '') {
+                        $value = $config["default_value"];
+                    }
+                }
+
+                $step = str_replace($index, $value, $step);
+            }
         }
         
         return $step;

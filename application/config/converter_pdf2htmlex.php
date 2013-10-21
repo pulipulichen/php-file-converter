@@ -43,10 +43,35 @@ $config['converter']["script"] = array(
     "mv [FILE_NAME].html ../completed/"
 );
 
+/**
+ * 允許輸入參數
+ * 
+ * $config['converter']['params']是一個array，包含很多的欄位設定
+ * 
+ * 舉例來說
+ * 
+ * // 第一個欄位，index是0
+ * $config['converter']['params'][0] = array(
+ *    // 欄位名稱
+ *    'label' => "Zoom",
+ *    // 預設值
+ *    'default_value' => "2",
+ *    // 欄位說明
+ *    'hint' => "1 means 100%, 2 means 200%",
+ *    // 資料類型。目前僅支援int。
+ *    'input_type' => "int",
+ * );
+ */
+// 第一個欄位，index是0
 $config['converter']['params'][0] = array(
+    // 欄位名稱
     'label' => "Zoom",
+    // 預設值
     'default_value' => "2",
-    'hint' => "1 means 100%, 2 means 200%"
+    // 欄位說明
+    'hint' => "1 means 100%, 2 means 200%",
+    // 資料類型。目前僅支援int
+    'input_type' => "int",
 );
 
 /**
