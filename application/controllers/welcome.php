@@ -45,8 +45,14 @@ class Welcome extends CI_Controller {
              */
             //$view_data["page_title"] = "PHP File Converter";
             //$view_data["page_title"] = $this->lang->line("page_title");
+            
+            $converter = $this->config->item("converter");
+            $parameters = $converter["params"];
+            
             $this->load->view('component/header');
-            $this->load->view('upload_view');
+            $this->load->view('upload_view', array(
+                "parameters" => $parameters
+            ));
             $this->load->view('component/footer');
 	}
 }

@@ -1,4 +1,4 @@
-<p>
+<p class="message">
     <strong>
 <?php
 if (isset($message)) {
@@ -50,4 +50,4 @@ var _start_convert_url = "<?php echo $start_convert_uri; ?>";
 $.get(_start_convert_url, "_blank");
 
 </script>
-<p><a href="<?php echo base_url(); ?>">Return to homepage</a>.</p>
+<p class="message"><a href="<?php echo base_url(); ?>">Return to homepage</a>.</p>

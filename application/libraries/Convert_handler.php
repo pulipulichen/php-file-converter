@@ -181,6 +181,8 @@ class Convert_handler extends KALS_object {
         }
         $scrtips = $converter["script"];
         
+        $params["PARAMS"] = $converter["PARAMS"];
+        
         chdir($bitstream->get_dir());
         foreach ($scrtips as $step) {
             // 取代$step的資料
@@ -237,6 +239,16 @@ class Convert_handler extends KALS_object {
         $step = str_replace("[FILE_NAME]", $params["FILE_NAME"], $step);
         $step = str_replace("[OUTPUT_DIR]", $params["OUTPUT_DIR"], $step);
         $step = str_replace("[ORI_NAME]", $params["ORI_NAME"], $step);
+        
+        // 處理PARAMS
+        foreach ($params["PARAMS"] as $key => $config) {
+            $index = '[PARAMS_'.$key.']';
+            $value = $config["default_value"];
+            
+            // 如何取得value？
+            
+            $step = str_replace($index, $value, $step);
+        }
         
         return $step;
     }

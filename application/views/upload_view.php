@@ -53,7 +53,47 @@ if (isset($error)) {
                     ?></strong> <br />
                     Allow file type: <strong><?php echo $this->config->item("allowed_types"); ?></strong>
                 </p>
-                
+
+                <?php
+                if (isset($parameters)) {
+                    echo "<p><table>";
+                    echo "<caption>".$this->lang->line("parameters_caption")."</caption>";
+                    echo "<tbody>";
+                    
+                    foreach ($parameters AS $key => $parameter) {
+                        $default_value = "";
+                        if (isset($parameter["default_value"])) {
+                            $default_value = $parameter["default_value"];
+                        }
+                        
+                        $label = "PARAM ".$key;
+                        if (isset($parameter["label"])) {
+                            $label = $parameter["label"];
+                        }
+                        
+                        $hint = NULL;
+                        if (isset($parameter["hint"])) {
+                            $hint = $parameter["hint"];
+                        }
+                        
+                        ?>
+                <tr>
+                    <td valign="top"><?php echo $label; ?></td>
+                    <td>
+                        <input type="text" value="<?php echo $default_value; ?>" name="params_<?php echo $key; ?>" />
+                        <?php
+                        if (!is_null($hint)) {
+                            echo "<br />".$hint;
+                        }
+                        ?>
+                    </td>
+                </tr>
+                        <?php
+                    }
+                    
+                    echo "</tbody></table></p>";
+                }
+                ?>
                 
             <p>Upload your file and wait for download.</p>
             

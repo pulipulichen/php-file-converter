@@ -78,6 +78,15 @@ class Converter extends CI_Controller {
             $bitstream->set_field("internal_name", $internal_name);
             $bitstream->set_field("type", "uploaded");
             
+            // 設定parameters
+            $i = 0;
+            while (isset($_POST["params_".$i])) {
+                $key = "params_".$i;
+                $value = $_POST[$key];
+                $bitstream->set_parameters($i, $value);
+                $i++;
+            }
+            
             $bitstream->update();
             
             $bitstream_id = $bitstream->get_id();

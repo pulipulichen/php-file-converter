@@ -7,3 +7,5 @@ $lang["page_title"] = "PHP File Converter";
 
 // Error
 $lang["deleted"] = "File Deleted";
+
+$lang["parameters_caption"] = "Convert Parameter";

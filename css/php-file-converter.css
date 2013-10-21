@@ -113,3 +113,8 @@ form .input.submit:active {
 #container h2 {
     font-size: 16px;
 }
+
+#container table caption {
+    font-weight: bold;
+    text-align: left;
+}

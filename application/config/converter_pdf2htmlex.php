@@ -38,15 +38,16 @@ $config['converter']["mime"] = "text/html";
 $config['converter']["script"] = array(
     //"~/.bashrc",
     //"cd [DIR]",
-    "pdf2htmlEX --zoom 2 [FULLNAME] [FILE_NAME].html",
+    "pdf2htmlEX --zoom [PARAMS_0] [FULLNAME] [FILE_NAME].html",
     //"cp [FULLNAME] [FILE_NAME].html",
     "mv [FILE_NAME].html ../completed/"
 );
-/*
-$config['converter']["script"] = array(
-    "/opt/lampp/htdocs/php-file-converter/convert-files/pdf2htmlEX.sh [FULLNAME] [FILE_NAME].html",
+
+$config['converter']['params'][0] = array(
+    'label' => "Zoom",
+    'default_value' => "2",
+    'hint' => "1 means 100%, 2 means 200%"
 );
-*/
 
 /**
  * 輸出檔案位置

@@ -29,6 +29,7 @@ class Bitstream extends Generic_object {
         , 'deleted'
         , 'type'
         , 'original_id'
+        , 'parameters'
     ); //資料表欄位
 
     //以下是選填資料，預設關閉
@@ -59,6 +60,10 @@ class Bitstream extends Generic_object {
         }
         if (isset($data['mime']) === FALSE && $file_ready) {
             $data['mime'] = $this->get_mime();
+        }
+        if (is_array($this->_parameters)) {
+            $param = json_encode($this->_parameters);
+            $data["parameters"] = $param;
         }
         return $data;
     }
@@ -317,6 +322,43 @@ class Bitstream extends Generic_object {
      */
     public function get_internal_name() {
         return $this->get_field("internal_name");
+    }
+    
+    // ----------------------
+    
+    /**
+     * 關聯式陣列的儲存點
+     * @return Array
+     */
+    private $_parameters = NULL;
+    
+    /**
+     * 取得關聯式陣列的儲存
+     * @return Array
+     */
+    public function get_parameters() {
+        if (is_null($this->_parameters)) {
+            $params = $this->get_field("parameters");
+            if (is_string($params)) {
+                $params_ary = json_decode($params, TRUE);
+                $this->_parameters = $params_ary;
+            }
+        }
+        return $this->_parameters;
+    }
+    
+    /**
+     * 放置儲存值
+     * @param String $field 欄位名稱
+     * @param String $value 值
+     * @return \Bitstream
+     */
+    public function set_parameters($field, $value) {
+        if (is_null($this->_parameters)) {
+            $this->_parameters = array();
+        }
+        $this->_parameters[$field] = $value;
+        return $this;
     }
 }
 
