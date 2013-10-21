@@ -140,7 +140,7 @@ class Converter extends CI_Controller {
                 //還沒轉換完成喔
                 
                 $name = $bitstream->get_original_name();
-                $view_data["page_title"] = $this->lang->line("page_title");
+                #$view_data["page_title"] = $this->lang->line("page_title");
 
                 $view_data["message"] = $name . $this->lang->line("wait");
                 $view_data["start_convert_uri"] = base_url('converter/start_convert');
@@ -390,7 +390,7 @@ class Converter extends CI_Controller {
          * @param {String} $message
          */
         private function _message($message) {
-            $view_data["page_title"] = $this->lang->line("page_title");
+            #$view_data["page_title"] = $this->lang->line("page_title");
             $view_data["message"] = $message;
             $this->load->view('component/header', $view_data);
             $this->load->view('component/error', $view_data);

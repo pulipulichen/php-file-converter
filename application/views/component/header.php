@@ -7,7 +7,8 @@
             echo $page_title;
             }
         else {
-            echo "PHP File Converter";
+            $converter = $this->config->item("converter");
+            echo $converter["name"]." - ".$this->lang->line("page_title");
         }
         ?></title>
         <script type="text/javascript" src="<?php echo base_url("js/jquery.js"); ?>"></script>
