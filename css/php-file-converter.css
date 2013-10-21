@@ -118,3 +118,9 @@ form .input.submit:active {
     font-weight: bold;
     text-align: left;
 }
+
+#container .warning {
+    border: 1px solid red;
+    display: inline-block;
+    padding-right: 14px;
+}

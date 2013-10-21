@@ -9,28 +9,39 @@ $converter = $this->config->item("converter");
                 }
         });
     });
-</script>   
-<?php 
-if ($this->config->item("debug") > 0) {
-?>
-        <script type="text/javascript">
-            // 20131015
-            // Only for test
-            $(function () {
-                setTimeout(function () {
-                    var _file_path = "D:\\xampp\\htdocs\\php-file-converter\\README.md";
-                    $("#bitstream").attr("value",_file_path).change();
-                    //$("#submit").slideDown();
-                }, 500);
-            });
-        </script>
-<?php 
-}
-?>   
+</script>     
         <link rel="icon" href="<?php echo base_url("/favicon.ico"); ?>" type="image/x-icon">
 
-	<h1>PHP File Converter</h1>
+	<h1>
+            <?php
+        if (isset($page_title)) {
+            echo $page_title;
+            }
+        else {
+            $converter = $this->config->item("converter");
+            echo $this->lang->line("page_title") . ' - ' . $converter["name"];
+        }
+            ?>
+        </h1>
 
+        <?php
+        if (count($chmod_messages) > 0) {
+            echo '<div class="warning message">';
+            echo "<p class='message'>";
+            
+            echo $this->lang->line("check_permissions_error");
+            
+            echo "<ul>";
+            foreach($chmod_messages AS $c) {
+                echo "<li>".$c."</li>";
+            }
+            echo "</ul>";
+            
+            
+            echo "</p>";
+            echo "</div>";
+        }
+        ?>
         
         <form id="body" action="<?php echo base_url("converter/"); ?>" method="post" enctype="multipart/form-data" tartget="_blank">
         

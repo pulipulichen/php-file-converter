@@ -19,46 +19,54 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-            //$this->load->library("toolkit/KALS_object");
-            //$this->load->library("toolkit/Generic_object");
-            /*
-            $this->load->library("object/log");
-            $log = new Log();
-            $log->set_field('action', "upload");
-            //$log->set_field('ip', "154545");
-            $log->set_field('bitstream_id', "1");
-            //$log->update();
-            
-            //$this->load->library("upload");
-            /*
-             * 測試用
-            $this->load->database();
-            $db = $this->db;
-            
-            
-            // insert user data
-            $db->insert('log', array(
-                'action' => "upload",
-                'ip' => '140.119.61.141',
-                'bitstream_id' => 1
-            ));
-             */
-            //$view_data["page_title"] = "PHP File Converter";
-            //$view_data["page_title"] = $this->lang->line("page_title");
-            
             $converter = $this->config->item("converter");
             $parameters = NULL;
             if (isset($converter["params"])) {
                 $parameters = $converter["params"];
             }
             
+            $chmod_messages = $this->_check_directories_mode();
             
             $this->load->view('component/header');
             $this->load->view('upload_view', array(
-                "parameters" => $parameters
+                "parameters" => $parameters,
+                "chmod_messages" => $chmod_messages
             ));
             $this->load->view('component/footer');
 	}
+        
+        private function _check_directories_mode() {
+            
+            $messages = array();
+            
+            //$config['convert_files']['uploaded']
+            $convert_files = $this->config->item('convert_files');
+            
+            //php-file-converter\convert-files\completed
+            //php-file-converter\convert-files\uploaded
+            //php-file-converter\application\db
+            //php-file-converter\application\db\php-file-converter.sqlite.db
+
+            $dir_ary = array(
+                get_root_path($convert_files['uploaded']),
+                get_root_path($convert_files['completed']),
+                get_root_path("application/db"),
+                get_root_path("application/db/php-file-converter.sqlite.orig.db"),
+                get_root_path("application/db/php-file-converter.sqlite.db"),
+            );
+            
+            foreach ($dir_ary AS $dir) {
+                $dir_mode = is_writable($dir);
+                if ($dir_mode === FALSE) {
+                    $result = @chmod($dir, 755);
+                    if ($result === FALSE) {
+                        array_push($messages, $dir);
+                    }
+                }
+            }
+            
+            return $messages;
+        }
 }
 
 /* End of file welcome.php */
