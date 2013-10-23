@@ -148,7 +148,7 @@ $config['max_reserved_files']	= 3;
  * PENDING 20131015 尚未實作
  */
 $config['max_file_size']	= 80;
-$config['max_size'] = $config['max_file_size']; 
+$config['max_size'] = $config['max_file_size'] * 1024; 
 
 /**
  * --------------------------------------------------------------------------

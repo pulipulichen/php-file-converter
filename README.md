@@ -54,8 +54,11 @@ PHP File Converter是一個線上轉檔工具。它的功能為供使用者以�
 
 ## 轉換檔案使用說明
 
-**TODO**
+![操作流程](https://lh5.googleusercontent.com/-BKN-1ykQgAI/Umd8ccu8EmI/AAAAAAABMLY/bXa8HTYQgiI/s0/2013-10-23_15-36-16.png)
 
+###使用說明投影片
+
+<iframe class="message" src="https://docs.google.com/presentation/d/1n5qX87ggKF2xfG_Zdfsr1v9roJjOgWfx6I_emDP4II8/embed?start=false&loop=false&delayms=3000" frameborder="0" width="480" height="389" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 ---
 
 ##待做功能

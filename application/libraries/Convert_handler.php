@@ -212,6 +212,10 @@ class Convert_handler extends KALS_object {
         //echo $output_path;
         //return false;
         if (is_file($output_path)) {
+            if ($bitstream->is_convert_completed()) {
+                return true;
+            }
+            
             $converted_bitstream = new Bitstream();
             $internal_name = substr($output_path, strrpos($output_path, DIRECTORY_SEPARATOR)+1);
             $converted_bitstream->set_field("original_name", $output_name);
