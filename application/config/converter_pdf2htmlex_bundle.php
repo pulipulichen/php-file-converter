@@ -42,7 +42,7 @@ $config['converter']["script"] = array(
     "cp [FULLNAME] [FILE_NAME]_tmp",
     "mv [FILE_NAME]_tmp/[FULLNAME] [FILE_NAME]_tmp/index.pdf",
     //"cd [DIR]/[FILE_NAME]_tmp",
-    "pdf2htmlEX --zoom [PARAMS_0] --embed-css 0 --embed-font 0 --embed-image 0 --embed-javascript 0 --dest-dir [FILE_NAME]_tmp [FILE_NAME]_tmp/index.pdf index.html",
+    "pdf2htmlEX --zoom [PARAMS_0] --embed-css 0 --embed-font 0 --embed-image 0 --embed-javascript 0 --process-outline 0 --dest-dir [FILE_NAME]_tmp [FILE_NAME]_tmp/index.pdf index.html",
     "rm [FILE_NAME]_tmp/index.pdf",
     // pdf2htmlEX --zoom 2 --embed-css 0 --embed-font 0 --embed-image 0 --embed-javascript 0 taiwan.pdf taiwan.html
     //"cd [FILE_NAME]_tmp/",

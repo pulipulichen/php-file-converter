@@ -3,3 +3,5 @@ aptana/
 nbproject/
 application/db/php-file-converter.sqlite.db
 [abandon]/
+[abandon]/*
+/[[]abandon]/php-file-converter-xampp-version.tar.gz
