@@ -9,7 +9,7 @@
 /**
  * 轉換器名稱
  */
-$config['converter']["name"] = "pdf2htmlex_bundle";
+$config['converter']["name"] = "pdf2htmlex";
 
 /**
  * 轉換完成的資料類型
@@ -17,7 +17,7 @@ $config['converter']["name"] = "pdf2htmlex_bundle";
  * @example "text/html" HTML檔案
  * @example NULL 表示跟來源檔案相同類型
  */
-$config['converter']["mime"] = "application/zip";
+$config['converter']["mime"] = "text/html";
 
 /**
  * 轉換手續
@@ -38,17 +38,9 @@ $config['converter']["mime"] = "application/zip";
 $config['converter']["script"] = array(
     //"~/.bashrc",
     //"cd [DIR]",
-    "mkdir [FILE_NAME]_tmp",
-    "cp [FULLNAME] [FILE_NAME]_tmp",
-    "mv [FILE_NAME]_tmp/[FULLNAME] [FILE_NAME]_tmp/index.pdf",
-    //"cd [DIR]/[FILE_NAME]_tmp",
-    "pdf2htmlEX --zoom [PARAMS_0] --embed-css 0 --embed-font 0 --embed-image 0 --embed-javascript 0 --process-outline 0 --dest-dir [FILE_NAME]_tmp [FILE_NAME]_tmp/index.pdf index.html",
-    "rm [FILE_NAME]_tmp/index.pdf",
-    // pdf2htmlEX --zoom 2 --embed-css 0 --embed-font 0 --embed-image 0 --embed-javascript 0 taiwan.pdf taiwan.html
-    //"cd [FILE_NAME]_tmp/",
-    "zip -j -9 ../completed/[FILE_NAME].zip [FILE_NAME]_tmp/*",
+    "pdf2htmlEX --zoom [PARAMS_0] [FULLNAME] [FILE_NAME].html",
     //"cp [FULLNAME] [FILE_NAME].html",
-    "rm -rf [FILE_NAME]_tmp"
+    "mv [FILE_NAME].html ../completed/"
 );
 
 /**
@@ -92,7 +84,7 @@ $config['converter']['params'][0] = array(
  * [FILE_NAME] 檔案的名稱
  * [EXT_NAME] 檔案的副檔名
  */
-$config['converter']["output_path"] = "[OUTPUT_DIR][FILE_NAME].zip";
+$config['converter']["output_path"] = "[OUTPUT_DIR][FILE_NAME].html";
 
 /**
  * 輸出檔案名稱
@@ -104,7 +96,7 @@ $config['converter']["output_path"] = "[OUTPUT_DIR][FILE_NAME].zip";
  * [FILE_NAME] 檔案的名稱
  * [EXT_NAME] 檔案的副檔名
  */
-$config['converter']["output_name"] = "[ORI_NAME].zip";
+$config['converter']["output_name"] = "[ORI_NAME].html";
 
 
 /**
