@@ -84,9 +84,9 @@ $autoload['config'] = array("config"
     //, "converter"
     
     // Example Files
-    //, "converter_pdf2htmlex"
+    , "converter_pdf2htmlex"
     //, "converter_doscopy"
-    , "converter_pdf2htmlex_bundle"
+    //, "converter_pdf2htmlex_bundle"
 );
 
 
